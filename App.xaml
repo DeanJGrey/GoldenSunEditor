@@ -13,6 +13,12 @@
 
                 <ResourceDictionary 
                     Source="Dictionaries/DictionaryListView.xaml"/>
+
+                <ResourceDictionary 
+                    Source="Dictionaries/DictionaryScrollBar.xaml"/>
+
+                <ResourceDictionary 
+                    Source="Dictionaries/DictionaryScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
