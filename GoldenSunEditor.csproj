@@ -79,6 +79,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BlurryDialogEnums.cs" />
+    <Compile Include="BlurryHelper.cs" />
+    <Compile Include="BlurryInternals.cs" />
+    <Compile Include="BlurryWindow.cs" />
+    <Compile Include="BlurryWindowUtilities.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="Windows\WindowStart.xaml.cs">
       <DependentUpon>WindowStart.xaml</DependentUpon>

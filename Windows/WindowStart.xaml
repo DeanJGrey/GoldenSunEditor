@@ -16,10 +16,9 @@
     Loaded="WindowLoad">
 
     <Border
-        CornerRadius="10" 
-        BorderThickness="0" 
-        BorderBrush="{x:Null}" 
-        Background="#FF0F0F0F">
+        CornerRadius="30" 
+        BorderThickness="0"
+        Background="#33FFFFFF">
 
         <Canvas 
             x:Name="canvas1" 
@@ -38,7 +37,6 @@
                 Width="157" 
                 Canvas.Left="149" 
                 Canvas.Top="138">
-
             </local:XAMLTester>
         </Canvas>
     </Border>

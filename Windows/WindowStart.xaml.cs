@@ -29,6 +29,8 @@ namespace GoldenSunEditor
 
         private void WindowLoad (object sender, RoutedEventArgs e)
         {
+            BlurryHelper.Blur(this);
+
             Canvas canvas = UIHelper.GetVisualChild <Canvas> (this, "canvas1");
 
             StackPanel stackPanel = new StackPanel();
