@@ -11,10 +11,11 @@
     Height="300"
     WindowStyle="None"
     AllowsTransparency="True"
-    Background="Transparent" 
+    Background="#7F000000" 
     MouseDown="WindowDrag" 
     Loaded="WindowLoad">
 
+    <!--
     <Border
         CornerRadius="30" 
         BorderThickness="0"
@@ -40,4 +41,5 @@
             </local:XAMLTester>
         </Canvas>
     </Border>
+    -->
 </Window>

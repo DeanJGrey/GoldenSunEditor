@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace GoldenSunEditor
 {
@@ -29,8 +31,9 @@ namespace GoldenSunEditor
 
         private void WindowLoad (object sender, RoutedEventArgs e)
         {
-            BlurryHelper.Blur(this);
+            BlurryHelper.EnableBlur(this);
 
+            /*
             Canvas canvas = UIHelper.GetVisualChild <Canvas> (this, "canvas1");
 
             StackPanel stackPanel = new StackPanel();
@@ -53,6 +56,7 @@ namespace GoldenSunEditor
 
                 stackPanel.Children.Add (buttons [i]);
             }
+            */
         }
 
         private void LoadWindowMain (object sender, RoutedEventArgs e)

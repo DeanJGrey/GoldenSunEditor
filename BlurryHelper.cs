@@ -7,54 +7,92 @@ using BlurryControls.Internals;
 
 namespace GoldenSunEditor
 {
+    internal enum AccentState
+    {
+        ACCENT_DISABLED = 0,
+        ACCENT_ENABLE_GRADIENT = 1,
+        ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+        ACCENT_ENABLE_BLURBEHIND = 3,
+        ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
+        ACCENT_INVALID_STATE = 5
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct AccentPolicy
+    {
+        public AccentState AccentState;
+        public uint AccentFlags;
+        public uint GradientColor;
+        public uint AnimationId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WindowCompositionAttributeData
+    {
+        public WindowCompositionAttribute Attribute;
+        public IntPtr Data;
+        public int SizeOfData;
+    }
+
+    internal enum WindowCompositionAttribute
+    {
+        // ...
+        WCA_ACCENT_POLICY = 19
+        // ...
+    }
+
     internal static class BlurryHelper
     {
-
-        public static void Blur(Window win)
-        {
-            EnableBlur (win, true);
-        }
-
-        public static void UnBlur(Window win)
-        {
-            EnableBlur(win, false);
-        }
-
         [DllImport("user32.dll")]
-        internal static extern int SetWindowCompositionAttribute (IntPtr hwnd, ref WindowCompositionAttributeData data);
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        /*
+        public static uint _blurOpacity;
+        
+        public static double BlurOpacity
+        {
+            get 
+            { 
+                return _blurOpacity;
+            }
+            set 
+            { 
+                _blurOpacity = (uint) value; 
+                EnableBlur (window); 
+            }
+        }
+
+        private static uint _blurBackgroundColor = 0x990000;
+        */
 
         /// <summary>
         /// this method uses the SetWindowCompositionAttribute to apply an AeroGlass effect to the window
         /// </summary>
-        private static void EnableBlur(Window win, bool enable)
+        internal static void EnableBlur (Window window)
         {
-            //this code is taken from a sample application provided by Rafael Rivera
-            //see the full code sample here: (2016/08)
-            // https://github.com/riverar/sample-win10-aeroglass
+            var windowHelper = new WindowInteropHelper(window);
 
-            var windowHelper = new WindowInteropHelper (win);
+            var accent = new AccentPolicy();
 
-            var accent = new AccentPolicy
-            {
-                AccentState = enable ? AccentState.AccentEnableBlurbehind : AccentState.AccentDisabled
-            };
+            accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
 
-            var accentStructSize = Marshal.SizeOf (accent);
+            accent.AccentFlags = 2;
+
+            accent.GradientColor = 0x990000;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
+
+            var accentStructSize = Marshal.SizeOf(accent);
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            var data = new WindowCompositionAttributeData
-            {
-                Attribute = WindowCompositionAttribute.WcaAccentPolicy,
-                SizeOfData = accentStructSize,
-                Data = accentPtr
-            };
+            var data = new WindowCompositionAttributeData();
+            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
 
-            SetWindowCompositionAttribute (windowHelper.Handle, ref data);
+            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
 
-            Marshal.FreeHGlobal (accentPtr);
+            Marshal.FreeHGlobal(accentPtr);
         }
     }
 }

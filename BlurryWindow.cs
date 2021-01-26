@@ -17,7 +17,7 @@ namespace GoldenSunEditor
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //apply blurry filter to the window
-            BlurryHelper.Blur (this);
+            BlurryHelper.EnableBlur (this);
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
