@@ -64,7 +64,6 @@ namespace GoldenSunEditor
 
         private static uint _blurBackgroundColor = 0x990000;
         */
-
         /// <summary>
         /// this method uses the SetWindowCompositionAttribute to apply an AeroGlass effect to the window
         /// </summary>
@@ -78,7 +77,7 @@ namespace GoldenSunEditor
 
             accent.AccentFlags = 2;
 
-            accent.GradientColor = 0x990000;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
+            accent.GradientColor = 0xFFFFFF;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
 
             var accentStructSize = Marshal.SizeOf(accent);
 
