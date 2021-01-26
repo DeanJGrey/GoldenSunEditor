@@ -12,11 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
+using System.Drawing;
+using System.Windows.Shell;
 
 namespace GoldenSunEditor
 {
     public partial class WindowMain : Window
     {
+        [DllImport("user32.dll")]
+        static extern Int32 SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+
+        [DllImport("gdi32.dll")]
+        static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+
+
         public WindowMain ()
         {
             InitializeComponent ();
@@ -44,6 +55,17 @@ namespace GoldenSunEditor
             panel.Children.Add (listView);
 
             panel.Children.Add (button);
+
+
+
+
+            WindowInteropHelper windowHelper = new WindowInteropHelper(this);
+
+            BlurryHelper.EnableBlur(windowHelper);
+
+            IntPtr hwnd = windowHelper.Handle; //IntPtr hwnd = new WindowInteropHelper(this).Handle;
+
+            SetWindowRgn(hwnd, CreateRoundRectRgn(0, 0, 300, 300, 75, 75), true);
         }
 
         private void WindowDrag (object sender, MouseButtonEventArgs e)

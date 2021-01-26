@@ -43,6 +43,13 @@ namespace GoldenSunEditor
 
     internal static class BlurryHelper
     {
+
+        [DllImport("user32.dll")]
+        static extern Int32 SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+
+        [DllImport("gdi32.dll")]
+        static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
@@ -67,31 +74,33 @@ namespace GoldenSunEditor
         /// <summary>
         /// this method uses the SetWindowCompositionAttribute to apply an AeroGlass effect to the window
         /// </summary>
-        internal static void EnableBlur (Window window)
+        internal static void EnableBlur (WindowInteropHelper windowHelper)
         {
-            var windowHelper = new WindowInteropHelper(window);
-
             var accent = new AccentPolicy();
 
             accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
 
             accent.AccentFlags = 2;
 
-            accent.GradientColor = 0xFFFFFF;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
+            accent.GradientColor = 0x01FFFFFF;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
 
-            var accentStructSize = Marshal.SizeOf(accent);
+            var accentStructSize = Marshal.SizeOf (accent);
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+
             Marshal.StructureToPtr(accent, accentPtr, false);
 
             var data = new WindowCompositionAttributeData();
+
             data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+
             data.SizeOfData = accentStructSize;
+
             data.Data = accentPtr;
 
-            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+            SetWindowCompositionAttribute (windowHelper.Handle, ref data);
 
-            Marshal.FreeHGlobal(accentPtr);
+            Marshal.FreeHGlobal (accentPtr);
         }
     }
 }

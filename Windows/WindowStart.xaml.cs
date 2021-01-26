@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Drawing;
+using System.Windows.Shell;
 
 namespace GoldenSunEditor
 {
@@ -32,7 +33,7 @@ namespace GoldenSunEditor
 
         private void WindowLoad (object sender, RoutedEventArgs e)
         {
-            BlurryHelper.EnableBlur(this);
+            //BlurryHelper.EnableBlur(this);
 
             /*
             Canvas canvas = UIHelper.GetVisualChild <Canvas> (this, "canvas1");
@@ -62,14 +63,17 @@ namespace GoldenSunEditor
             }
             */
 
+
+
+
             /*
-            var helper = new WindowInteropHelper(this);
+            var helper = new WindowInteropHelper (this);
             var hwnd = helper.Handle;
-            var src = HwndSource.FromHwnd(hwnd);
+            var src = HwndSource.FromHwnd (hwnd);
 
             src.CompositionTarget.BackgroundColor = Colors.Transparent;
 
-            WindowChrome.SetWindowChrome(this, new WindowChrome
+            WindowChrome windowChrome = new WindowChrome()
             {
                 CaptionHeight = 500,
                 CornerRadius = new CornerRadius(0),
@@ -77,16 +81,18 @@ namespace GoldenSunEditor
                 NonClientFrameEdges = NonClientFrameEdges.None,
                 ResizeBorderThickness = new Thickness(0),
                 UseAeroCaptionButtons = false
-            });
+            };
 
-            GraphicsPath path = new GraphicsPath(FillMode.Alternate);
-            path.StartFigure();
-            path.AddArc(new RectangleF(0, 0, 500, 500), 0, 360);
-            path.CloseFigure();
+            WindowChrome.SetWindowChrome (this, windowChrome);
 
-            var dbb = new DwmBlurBehind(true);
-            dbb.SetRegion(Graphics.FromHwnd(hwnd), new Region(path));
-            DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dbb);
+            PathGeometry path = new PathGeometry();
+            //path.StartFigure();
+            path.AddGeometry(new RectangleGeometry() { Rect = new Rect (0,0,100,100)});//AddArc(new RectangleF(0, 0, 500, 500), 0, 360);
+            //path.CloseFigure();
+
+            var dwmBlurBehind = new DwmBlurBehind (true);
+            dwmBlurBehind.SetRegion(Graphics.FromHwnd(hwnd), new Region(path));
+            DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dwmBlurBehind);
             */
         }
 
