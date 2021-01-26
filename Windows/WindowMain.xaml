@@ -13,19 +13,12 @@
     Height="600"
     WindowStyle="None"
     AllowsTransparency="True"
-    Background="Transparent"
-    Loaded="WindowLoaded" 
-    MouseDown="WindowDrag">
+    Background="#00000000">
+    <!--Loaded="WindowLoaded"
+    MouseDown="WindowDrag"-->
 
-    <Border
-        CornerRadius="10" 
-        BorderThickness="0" 
-        BorderBrush="{x:Null}" 
-        Background="#FF0F0F0F">
-
-        <Canvas 
+    <Canvas 
             x:Name="canvas1" 
             Margin="0,0,0,0">
-        </Canvas>
-    </Border>
+    </Canvas>
 </Window>
