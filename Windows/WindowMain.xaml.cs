@@ -208,10 +208,10 @@ namespace GoldenSunEditor
                 UseAeroCaptionButtons = false
             });
 
-            GraphicsPath path = new GraphicsPath(FillMode.Alternate);
-            path.StartFigure();
-            path.AddArc(new RectangleF(0, 0, 500, 500), 0, 360);
-            path.CloseFigure();
+            GraphicsPath path = new GraphicsPath (FillMode.Alternate);
+            path.StartFigure ();
+            path.AddArc (new RectangleF (0, 0, 500, 500), 0, 360);
+            path.CloseFigure ();
 
             var dbb = new DWM_BLURBEHIND(true);//new DwmBlurBehind(true);
             dbb.SetRegion(Graphics.FromHwnd(hwnd), new Region(path));
@@ -239,7 +239,7 @@ namespace GoldenSunEditor
                 fEnable = enabled ? true : false;
                 hRgnBlur = IntPtr.Zero;
                 fTransitionOnMaximized = false;
-                dwFlags = DWM_BB.Enable;
+                dwFlags = DWM_BB.Enable;//.BlurRegion;//.Enable;
             }
 
             public Region Region
