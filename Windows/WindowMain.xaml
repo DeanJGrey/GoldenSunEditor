@@ -5,19 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:GoldenSunEditor"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     mc:Ignorable="d"
     Title="WindowMain"
     Width="900"
     Height="600"
     WindowStyle="None"
     AllowsTransparency="True"
-    Background="#7F000000" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    Background="#7F000000"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen">
 
-    <Canvas 
-            x:Name="canvas1" 
-            Margin="0,0,0,0">
+    <Canvas
+        x:Name="canvas1"
+        Margin="0,0,0,0">
 
         <Label
             Content="Editor"
@@ -26,77 +28,80 @@
             Foreground="#33FFFFFF"
             FontFamily="Century Gothic"
             FontSize="36"
-            FontWeight="Bold"/>
+            FontWeight="Bold" />
 
         <Ellipse
             Fill="#4C000000"
-            Height="100" 
-            Canvas.Left="416" 
-            Stroke="#00000000" 
-            Canvas.Top="303" 
-            Width="100"/>
+            Height="100"
+            Canvas.Left="416"
+            Stroke="#00000000"
+            Canvas.Top="303"
+            Width="100" />
 
         <Ellipse
-            Fill="#7F000000" 
-            Height="100" 
-            Canvas.Left="521" 
-            Stroke="#00000000" 
-            Canvas.Top="303" 
-            Width="100"/>
+            Fill="#7F000000"
+            Height="100"
+            Canvas.Left="521"
+            Stroke="#00000000"
+            Canvas.Top="303"
+            Width="100" />
 
         <Ellipse
             Fill="#B2000000"
-            Height="100" 
-            Canvas.Left="626" 
-            Stroke="#00000000" 
-            Canvas.Top="303" 
-            Width="100"/>
+            Height="100"
+            Canvas.Left="626"
+            Stroke="#00000000"
+            Canvas.Top="303"
+            Width="100" />
 
         <Ellipse
             Fill="#4CFF0000"
-            Height="100" 
-            Canvas.Left="416" 
-            Stroke="#00000000" 
-            Canvas.Top="408" 
-            Width="100"/>
+            Height="100"
+            Canvas.Left="416"
+            Stroke="#00000000"
+            Canvas.Top="408"
+            Width="100" />
 
         <Ellipse
-            Fill="#7FFF0000" 
-            Height="100" 
-            Canvas.Left="521" 
-            Stroke="#00000000" 
-            Canvas.Top="408" 
-            Width="100"/>
+            Fill="#7FFF0000"
+            Height="100"
+            Canvas.Left="521"
+            Stroke="#00000000"
+            Canvas.Top="408"
+            Width="100" />
 
         <Ellipse
             Fill="#B2FF0000"
-            Height="100" 
-            Canvas.Left="626" 
-            Stroke="#00000000" 
-            Canvas.Top="408" 
-            Width="100"/>
+            Height="100"
+            Canvas.Left="626"
+            Stroke="#00000000"
+            Canvas.Top="408"
+            Width="100" />
 
         <ScrollBar
             Height="560"
             Canvas.Top="30"
             Canvas.Right="10"
-            Canvas.Bottom="10" 
-            Canvas.Left="875"/>
+            Canvas.Bottom="10"
+            Canvas.Left="875" />
 
         <Button
             Style="{StaticResource buttonRed}"
-            Content="" 
-            Canvas.Right="10" 
-            Canvas.Top="10" 
-            Width="15" 
-            Height="15"/>
+            Content=""
+            Canvas.Right="10"
+            Canvas.Top="10"
+            Width="10"
+            Height="10"
+            Canvas.Left="880"
+            Click="buttonRedClick" />
 
         <Button
             Style="{StaticResource buttonGreen}"
-            Content="" 
-            Canvas.Right="35" 
-            Canvas.Top="10" 
-            Width="15" 
-            Height="15"/>
+            Content=""
+            Canvas.Right="30"
+            Canvas.Top="10"
+            Width="10"
+            Height="10"
+            Click="buttonGreenClick" />
     </Canvas>
 </Window>

@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using BlurryControls.Internals;
 
 namespace GoldenSunEditor
 {

@@ -14,8 +14,7 @@
 
                 <Grid
                         x:Name="Bg" 
-                        SnapsToDevicePixels="True"
-                        Width = "15">
+                        SnapsToDevicePixels="True">
 
                     <Grid.RowDefinitions>
                         <RowDefinition 

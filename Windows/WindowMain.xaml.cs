@@ -24,10 +24,10 @@ namespace GoldenSunEditor
     public partial class WindowMain : Window
     {
         [DllImport("user32.dll")]
-        static extern Int32 SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+        static extern Int32 SetWindowRgn (IntPtr hWnd, IntPtr hRgn, bool bRedraw);
 
         [DllImport("gdi32.dll")]
-        static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+        static extern IntPtr CreateRoundRectRgn (int x1, int y1, int x2, int y2, int cx, int cy);
 
         public WindowMain ()
         {
@@ -52,7 +52,7 @@ namespace GoldenSunEditor
                 Margin = new Thickness (10)
             };
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 90; i++)
             {
                 listView.Items.Add(new ListViewItem().Content = "Item" + " " + (i + 1));
             }
@@ -78,9 +78,26 @@ namespace GoldenSunEditor
             //SetWindowRgn (hwnd, CreateRoundRectRgn (0, 0, 300, 300, 75, 75), true);
         }
 
+
+
+
+
+
+
         private void WindowDrag (object sender, MouseButtonEventArgs e)
         {
-            this.DragMove ();
+            if (e.RightButton != MouseButtonState.Pressed)
+                this.DragMove ();
+        }
+
+        private void buttonRedClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonGreenClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
 
