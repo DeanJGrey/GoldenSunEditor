@@ -117,6 +117,7 @@ namespace GoldenSunEditor
 
                             stackPanelButton.Children.Add (button2);
 
+            // TABCONTROL
             TabControl tabControl = new TabControl ()
             {
                 Margin = new Thickness (0, 10, 10, 10),
@@ -126,25 +127,18 @@ namespace GoldenSunEditor
 
             stackPanel.Children.Add (tabControl);
 
-                TabItem tabItem1 = new TabItem ()
+                for (int i = 0; i < 20; i++)
                 {
-                    Header = "tabItem1",
-                    Height = 20,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center
-                };
+                    TabItem tabItem = new TabItem ()
+                    {
+                        Header = "tabItem" + " " + i,
+                        Height = 20,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                        VerticalContentAlignment = VerticalAlignment.Center
+                    };
 
-                tabControl.Items.Add (tabItem1);
-
-                TabItem tabItem2 = new TabItem ()
-                {
-                    Header = "tabItem2",
-                    Height = 20,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center
-                };
-
-                tabControl.Items.Add (tabItem2);
+                tabControl.Items.Add (tabItem);
+            }
         }
 
         private void WindowDrag (object sender, MouseButtonEventArgs e)

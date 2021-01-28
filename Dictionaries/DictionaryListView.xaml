@@ -103,23 +103,21 @@
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     
+                    <!-- TRIGGERS -->
                     <ControlTemplate.Triggers>
+                        
+                        <!-- MOUSE OVER TRUE -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition
                                     Property="IsMouseOver"
                                     Value="True" />
                             </MultiTrigger.Conditions>
-                            
+
                             <Setter
                                 Property="Background"
                                 TargetName="Bd"
                                 Value="#66FFFFFF" />
-
-                            <Setter
-                                Property="BorderBrush"
-                                TargetName="Bd"
-                                Value="#00000000" />
 
                             <Setter
                                 Property="TextElement.Foreground"
@@ -127,6 +125,7 @@
                                 Value="#FF000000" />
                         </MultiTrigger>
                         
+                        <!-- SELECTION ACTIVE FALSE & SELECTED TRUE -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition
@@ -137,23 +136,19 @@
                                     Property="IsSelected"
                                     Value="True" />
                             </MultiTrigger.Conditions>
-                            
+
                             <Setter
                                 Property="Background"
                                 TargetName="Bd"
                                 Value="#66FFFFFF" />
 
                             <Setter
-                                Property="BorderBrush"
-                                TargetName="Bd"
-                                Value="#00000000" />
-
-                            <Setter
                                 Property="TextElement.Foreground"
                                 TargetName="Bd"
                                 Value="#FF000000" />
                         </MultiTrigger>
-                        
+
+                        <!-- SELECTION ACTIVE TRUE & SELECTED TRUE -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition
@@ -164,23 +159,19 @@
                                     Property="IsSelected"
                                     Value="True" />
                             </MultiTrigger.Conditions>
-                            
+
                             <Setter
                                 Property="Background"
                                 TargetName="Bd"
                                 Value="#66FFFFFF" />
-                            
-                            <Setter
-                                Property="BorderBrush"
-                                TargetName="Bd"
-                                Value="#00000000" />
 
                             <Setter
                                 Property="TextElement.Foreground"
                                 TargetName="Bd"
                                 Value="#FF000000" />
                         </MultiTrigger>
-                        
+
+                        <!-- ENABLED TRUE -->
                         <Trigger
                             Property="IsEnabled"
                             Value="False">
