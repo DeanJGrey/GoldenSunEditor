@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GoldenSunEditor"
-    StartupUri="Windows/WindowMain.xaml">
+    StartupUri="Windows/WindowStart.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -19,6 +19,12 @@
 
                 <ResourceDictionary 
                     Source="Dictionaries/DictionaryScrollViewer.xaml"/>
+
+                <ResourceDictionary
+                    Source="Dictionaries/DictionaryTabControl.xaml" />
+
+                <ResourceDictionary
+                    Source="Dictionaries/DictionaryCheckBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

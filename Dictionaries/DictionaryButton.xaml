@@ -6,13 +6,9 @@
     <Style
         TargetType="Button">
 
-        <Setter 
-            Property = "Foreground"
-            Value = "White"/>
-
-        <Setter 
-            Property = "FontFamily"
-            Value = "Century Gothic"/>
+        <Setter
+            Property="Foreground"
+            Value="White" />
 
         <Setter 
             Property = "FontSize"

@@ -80,15 +80,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BlurryHelper.cs" />
-    <Compile Include="UIHelper.cs" />
+    <Compile Include="GUI\BlurryHelper.cs" />
+    <Compile Include="GUI\UIHelper.cs" />
     <Compile Include="Windows\WindowStart.xaml.cs">
       <DependentUpon>WindowStart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XAMLTester.xaml.cs">
-      <DependentUpon>XAMLTester.xaml</DependentUpon>
-    </Compile>
     <Page Include="Dictionaries\DictionaryButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionaries\DictionaryCheckBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -101,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dictionaries\DictionaryScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionaries\DictionaryTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,10 +122,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\WindowStart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="XAMLTester.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,5 +164,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

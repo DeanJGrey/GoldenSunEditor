@@ -4,8 +4,7 @@
     xmlns:local="clr-namespace:GoldenSunEditor">
 
     <Style
-        TargetType="ScrollViewer"
-        x:Key="xxx">
+        TargetType="ScrollViewer">
 
         <Setter 
             Property = "Template">

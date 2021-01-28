@@ -23,12 +23,6 @@ namespace GoldenSunEditor
 {
     public partial class WindowMain : Window
     {
-        [DllImport("user32.dll")]
-        static extern Int32 SetWindowRgn (IntPtr hWnd, IntPtr hRgn, bool bRedraw);
-
-        [DllImport("gdi32.dll")]
-        static extern IntPtr CreateRoundRectRgn (int x1, int y1, int x2, int y2, int cx, int cy);
-
         public WindowMain ()
         {
             InitializeComponent ();
@@ -39,50 +33,119 @@ namespace GoldenSunEditor
 
         private void WindowLoaded (object sender, RoutedEventArgs e)
         {
+            // BLUR
             WindowInteropHelper windowHelper = new WindowInteropHelper (this);
 
             BlurryHelper.EnableBlur (windowHelper);
 
-            Panel panel = UIHelper.GetVisualChild <Panel> (this, "canvas1");
-
-            ListView listView = new ListView()
+            // CONTENT
+            Canvas canvas = new Canvas ()
             {
-                Width = 200,
-                Height = 580,
-                Margin = new Thickness (10)
+                Width = this.Width,
+                Height = this.Height,
+                Margin = new Thickness (0)
             };
 
-            for (int i = 0; i < 90; i++)
+            this.AddChild (canvas);
+
+                // 
+                StackPanel stackPanel = new StackPanel ()
+                {
+                    Orientation = Orientation.Horizontal,
+                    Width = this.Width,
+                    Height = this.Height,
+                    Margin = new Thickness (0)
+                };
+
+                canvas.Children.Add (stackPanel);
+
+                    // LISTVIEW & BUTTONS
+                    StackPanel stackPanelListViewButtons = new StackPanel ()
+                    {
+                        Orientation = Orientation.Vertical,
+                        Width = 200,
+                        Height = this.Height,
+                        Margin = new Thickness (0),
+                        HorizontalAlignment = HorizontalAlignment.Left
+                    };
+
+                    stackPanel.Children.Add (stackPanelListViewButtons);
+
+                        // LISTVIEW
+                        ListView listView = new ListView ()
+                        {
+                            Width = stackPanelListViewButtons.Width - 20,
+                            Height = this.Height - 50,
+                            Margin = new Thickness (10),
+                            HorizontalAlignment = HorizontalAlignment.Left
+                        };
+
+                        for (int i = 0; i < 90; i++)
+                        {
+                            listView.Items.Add (new ListViewItem ().Content = "Item" + " " + (i + 1));
+                        }
+
+                        stackPanelListViewButtons.Children.Add (listView);
+
+                        // BUTTONS
+                        StackPanel stackPanelButton = new StackPanel ()
+                        {
+                            Orientation = Orientation.Horizontal,
+                            Height = 30,
+                            Margin = new Thickness (10, 0, 10, 0)
+                        };
+
+                        stackPanelListViewButtons.Children.Add (stackPanelButton);
+
+                            Button button1 = new Button ()
+                            {
+                                Width = 85,
+                                Margin = new Thickness (0, 0, 10, 10),
+                                HorizontalAlignment = HorizontalAlignment.Left,
+                                Content = "Button 1"
+                            };
+
+                            stackPanelButton.Children.Add (button1);
+
+                            Button button2 = new Button ()
+                            {
+                                Width = 85,
+                                Margin = new Thickness (0, 0, 0, 10),
+                                HorizontalAlignment = HorizontalAlignment.Left,
+                                Content = "Button 2"
+                            };
+
+                            stackPanelButton.Children.Add (button2);
+
+            TabControl tabControl = new TabControl ()
             {
-                listView.Items.Add(new ListViewItem().Content = "Item" + " " + (i + 1));
-            }
-
-
-
-            Button button = new Button ()
-            {
-                Height = 40,
-                Width = 100,
-                Margin = new Thickness (220, 10, 10, 10)
+                Margin = new Thickness (0, 10, 10, 10),
+                Width = this.Width - 210,
+                Height = this.Height - 20
             };
 
+            stackPanel.Children.Add (tabControl);
 
+                TabItem tabItem1 = new TabItem ()
+                {
+                    Header = "tabItem1",
+                    Height = 20,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center
+                };
 
-            
-            panel.Children.Add (listView);
+                tabControl.Items.Add (tabItem1);
 
-            panel.Children.Add (button);
+                TabItem tabItem2 = new TabItem ()
+                {
+                    Header = "tabItem2",
+                    Height = 20,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center
+                };
 
-            //IntPtr hwnd = windowHelper.Handle; //IntPtr hwnd = new WindowInteropHelper(this).Handle;
-
-            //SetWindowRgn (hwnd, CreateRoundRectRgn (0, 0, 300, 300, 75, 75), true);
+                tabControl.Items.Add (tabItem2);
         }
-
-
-
-
-
-
 
         private void WindowDrag (object sender, MouseButtonEventArgs e)
         {
@@ -92,202 +155,12 @@ namespace GoldenSunEditor
 
         private void buttonRedClick(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Close ();
         }
 
-        private void buttonGreenClick(object sender, RoutedEventArgs e)
+        private void buttonGreenClick (object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        public WindowMain ()
-        {
-            InitializeComponent();
-
-            WindowStyle = WindowStyle.None;
-            AllowsTransparency = true;
-
-            SourceInitialized += OnSourceInitialized;
-        }
-
-        private void OnSourceInitialized(object sender, EventArgs eventArgs)
-        {
-            if (!NativeMethods.DwmIsCompositionEnabled())
-                return;
-
-            var hwnd = new WindowInteropHelper(this).Handle;
-
-            var hwndSource = HwndSource.FromHwnd(hwnd);
-            var sizeFactor = hwndSource.CompositionTarget.TransformToDevice.Transform(new Vector(1.0, 1.0));
-
-            Background = System.Windows.Media.Brushes.Transparent;
-            hwndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
-
-            using (var path = new GraphicsPath())
-            {
-                path.AddEllipse(0, 0, (int)(ActualWidth * sizeFactor.X), (int)(ActualHeight * sizeFactor.Y));
-
-                using (var region = new Region(path))
-                using (var graphics = Graphics.FromHwnd(hwnd))
-                {
-                    var hRgn = region.GetHrgn(graphics);
-
-                    var blur = new NativeMethods.DWM_BLURBEHIND ()
-                    {
-                        dwFlags = NativeMethods.DWM_BB.DWM_BB_ENABLE | NativeMethods.DWM_BB.DWM_BB_BLURREGION | NativeMethods.DWM_BB.DWM_BB_TRANSITIONONMAXIMIZED,
-                        fEnable = true,
-                        hRgnBlur = hRgn,
-                        fTransitionOnMaximized = true
-                    };
-
-                    NativeMethods.DwmEnableBlurBehindWindow (hwnd, ref blur);
-
-                    region.ReleaseHrgn(hRgn);
-                }
-            }
-        }
-
-        [SuppressUnmanagedCodeSecurity]
-        private static class NativeMethods
-        {
-            [StructLayout(LayoutKind.Sequential)]
-            public struct DWM_BLURBEHIND
-            {
-                public DWM_BB dwFlags;
-                public bool fEnable;
-                public IntPtr hRgnBlur;
-                public bool fTransitionOnMaximized;
-            }
-
-            [Flags]
-            public enum DWM_BB
-            {
-                DWM_BB_ENABLE = 1,
-                DWM_BB_BLURREGION = 2,
-                DWM_BB_TRANSITIONONMAXIMIZED = 4
-            }
-
-            [DllImport("dwmapi.dll", PreserveSig = false)]
-            public static extern bool DwmIsCompositionEnabled();
-
-            [DllImport("dwmapi.dll", PreserveSig = false)]
-            public static extern void DwmEnableBlurBehindWindow (IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
-        }
-        */
-
-
-
-
-
-
-
-
-        /*
-        [DllImport("dwmapi.dll")]
-        static extern void DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
-
-        public WindowMain ()
-        {
-            InitializeComponent();
-
-            this.SourceInitialized += MainWindow_SourceInitialized;
-            this.KeyDown += MainWindow_KeyDown;
-        }
-
-        void MainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape) this.Close();
-        }
-
-        void MainWindow_SourceInitialized(object sender, EventArgs e)
-        {
-            var helper = new WindowInteropHelper(this);
-            var hwnd = helper.Handle;
-            var src = HwndSource.FromHwnd(hwnd);
-
-            src.CompositionTarget.BackgroundColor = Colors.Transparent;
-
-            WindowChrome.SetWindowChrome (this, new WindowChrome
-            {
-                CaptionHeight = 500,
-                CornerRadius = new CornerRadius (0),
-                GlassFrameThickness = new Thickness (0),
-                NonClientFrameEdges = NonClientFrameEdges.None,
-                ResizeBorderThickness = new Thickness (0),
-                UseAeroCaptionButtons = false
-            });
-
-            GraphicsPath path = new GraphicsPath (FillMode.Alternate);
-            path.StartFigure ();
-            path.AddArc (new RectangleF (0, 0, 500, 500), 0, 360);
-            path.CloseFigure ();
-
-            var dbb = new DWM_BLURBEHIND (true); //new DwmBlurBehind(true);
-
-            dbb.SetRegion (Graphics.FromHwnd (hwnd), new Region (path));
-
-            DwmEnableBlurBehindWindow (hwnd, ref dbb);//DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dbb);
-        }
-
-        [Flags]
-        enum DWM_BB
-        {
-            Enable = 1,
-            BlurRegion = 2,
-            TransitionMaximized = 4
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct DWM_BLURBEHIND
-        {
-            public DWM_BB dwFlags;
-            public bool fEnable;
-            public IntPtr hRgnBlur;
-            public bool fTransitionOnMaximized;
-
-            public DWM_BLURBEHIND(bool enabled)
-            {
-                fEnable = enabled ? true : false;
-                hRgnBlur = IntPtr.Zero;
-                fTransitionOnMaximized = false;
-                dwFlags = DWM_BB.Enable;//.BlurRegion;//.Enable;
-            }
-
-            public Region Region
-            {
-                get { return Region.FromHrgn(hRgnBlur); }
-            }
-
-            public bool TransitionOnMaximized
-            {
-                get { return fTransitionOnMaximized; }
-                set
-                {
-                    fTransitionOnMaximized = value ? true : false;
-                    dwFlags |= DWM_BB.TransitionMaximized;
-                }
-            }
-
-            public void SetRegion(Graphics graphics, Region region)
-            {
-                hRgnBlur = region.GetHrgn(graphics);
-                dwFlags |= DWM_BB.BlurRegion;
-            }
-        }
-        */
     }
 }

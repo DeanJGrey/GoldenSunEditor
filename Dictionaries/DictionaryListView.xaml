@@ -7,11 +7,11 @@
         TargetType="ListView">
 
         <Setter
-            Property = "Foreground"
-            Value = "White"/>
+            Property="Foreground"
+            Value="White" />
 
         <Setter
-            Property = "Template">
+            Property="Template">
 
             <Setter.Value>
                 <ControlTemplate
@@ -32,7 +32,7 @@
                             Margin="10">
 
                             <ItemsPresenter
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Border>
 
@@ -44,24 +44,152 @@
                             <Setter
                                 Property="Background"
                                 TargetName="Bd"
-                                Value="White"/>
+                                Value="White" />
                         </Trigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition 
-                                    Property="IsGrouping" 
-                                    Value="True"/>
+                                <Condition
+                                    Property="IsGrouping"
+                                    Value="True" />
 
-                                <Condition 
-                                    Property="VirtualizingPanel.IsVirtualizingWhenGrouping" 
-                                    Value="False"/>
+                                <Condition
+                                    Property="VirtualizingPanel.IsVirtualizingWhenGrouping"
+                                    Value="False" />
                             </MultiTrigger.Conditions>
 
-                            <Setter 
-                                Property="ScrollViewer.CanContentScroll" 
-                                Value="False"/>
+                            <Setter
+                                Property="ScrollViewer.CanContentScroll"
+                                Value="False" />
                         </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    
+    
+    
+    
+    
+    <Style
+        TargetType="ListViewItem">
+
+        <Setter
+            Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type ListBoxItem}">
+                    
+                    <Border
+                        x:Name="Bd"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}"
+                        SnapsToDevicePixels="True"
+                        CornerRadius="8"
+                        Margin="0,0,10,0">
+                        
+                        <ContentPresenter
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            
+                            <Setter
+                                Property="Background"
+                                TargetName="Bd"
+                                Value="#66FFFFFF" />
+
+                            <Setter
+                                Property="BorderBrush"
+                                TargetName="Bd"
+                                Value="#00000000" />
+
+                            <Setter
+                                Property="TextElement.Foreground"
+                                TargetName="Bd"
+                                Value="#FF000000" />
+                        </MultiTrigger>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="Selector.IsSelectionActive"
+                                    Value="False" />
+                                
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            
+                            <Setter
+                                Property="Background"
+                                TargetName="Bd"
+                                Value="#66FFFFFF" />
+
+                            <Setter
+                                Property="BorderBrush"
+                                TargetName="Bd"
+                                Value="#00000000" />
+
+                            <Setter
+                                Property="TextElement.Foreground"
+                                TargetName="Bd"
+                                Value="#FF000000" />
+                        </MultiTrigger>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition
+                                    Property="Selector.IsSelectionActive"
+                                    Value="True" />
+                                
+                                <Condition
+                                    Property="IsSelected"
+                                    Value="True" />
+                            </MultiTrigger.Conditions>
+                            
+                            <Setter
+                                Property="Background"
+                                TargetName="Bd"
+                                Value="#66FFFFFF" />
+                            
+                            <Setter
+                                Property="BorderBrush"
+                                TargetName="Bd"
+                                Value="#00000000" />
+
+                            <Setter
+                                Property="TextElement.Foreground"
+                                TargetName="Bd"
+                                Value="#FF000000" />
+                        </MultiTrigger>
+                        
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+
+                            <Setter
+                                Property="TextElement.Foreground"
+                                TargetName="Bd"
+                                Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
