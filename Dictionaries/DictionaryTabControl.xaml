@@ -38,6 +38,7 @@
                                 Height="*" />
                         </Grid.RowDefinitions>
 
+                        <!--
                         <TabPanel
                             x:Name="HeaderPanel"
                             Background="Transparent"
@@ -46,11 +47,34 @@
                             Margin="0"
                             Grid.Row="0"
                             KeyboardNavigation.TabIndex="1"
-                            Panel.ZIndex="1" />
+                            Panel.ZIndex="1"/>
+                        -->
 
+                        <!--
+                        <ToolBar
+                            x:Name="HeaderPanel"
+                            ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}" />
+                        -->
+
+                        <ScrollViewer
+
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Disabled">
+                            
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Orientation="Horizontal"
+                                x:Name="HeaderPanel"
+                                Background="Transparent"
+                                IsItemsHost="True"
+                                Margin="0"
+                                KeyboardNavigation.TabIndex="1"
+                                Panel.ZIndex="1"/>
+                        </ScrollViewer>
+                        
                         <Border
                             x:Name="ContentPanel"
-                            BorderBrush="#00000000"
                             BorderThickness="0"
                             Background="#4C000000"
                             Grid.Column="0"

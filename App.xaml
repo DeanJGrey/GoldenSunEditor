@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GoldenSunEditor"
-    StartupUri="Windows/WindowMain.xaml">
+    StartupUri="Windows/WindowStart.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -13,9 +13,6 @@
 
                 <ResourceDictionary 
                     Source="Dictionaries/DictionaryListView.xaml"/>
-
-                <ResourceDictionary 
-                    Source="Dictionaries/DictionaryScrollBar.xaml"/>
 
                 <ResourceDictionary 
                     Source="Dictionaries/DictionaryScrollViewer.xaml"/>
