@@ -3,52 +3,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GoldenSunEditor">
 
-    <Style 
+    <Style
         TargetType="ListView">
 
-        <Setter 
+        <Setter
             Property = "Foreground"
             Value = "White"/>
 
-        <Setter 
+        <Setter
             Property = "Template">
 
             <Setter.Value>
-                <ControlTemplate 
+                <ControlTemplate
                     TargetType="{x:Type ListBox}">
 
-                    <Border 
-                        CornerRadius="5" 
-                        BorderThickness="0" 
-                        BorderBrush="{x:Null}" 
-                        Background="#FF1E1E1E"
-                        x:Name="Bd" 
-                        Padding="1" 
+                    <Border
+                        CornerRadius="8"
+                        BorderThickness="0"
+                        BorderBrush="{x:Null}"
+                        Background="#4C000000"
+                        x:Name="Bd"
+                        Padding="1"
                         SnapsToDevicePixels="True">
 
-                        <ScrollViewer 
-                            Focusable="False" 
-                            Padding="{TemplateBinding Padding}">
+                        <ScrollViewer
+                            Focusable="False"
+                            Padding="{TemplateBinding Padding}"
+                            Margin="10">
 
-                            <ItemsPresenter 
+                            <ItemsPresenter
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </ScrollViewer>
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger 
-                            Property="IsEnabled" 
+                        <Trigger
+                            Property="IsEnabled"
                             Value="False">
 
-                            <Setter 
-                                Property="Background" 
-                                TargetName="Bd" 
+                            <Setter
+                                Property="Background"
+                                TargetName="Bd"
                                 Value="White"/>
-
-                            <Setter 
-                                Property="BorderBrush" 
-                                TargetName="Bd" 
-                                Value="#FFD9D9D9"/>
                         </Trigger>
 
                         <MultiTrigger>

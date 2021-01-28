@@ -11,33 +11,25 @@
     Height="300"
     WindowStyle="None"
     AllowsTransparency="True"
-    Background="#7F000000" 
-    MouseDown="WindowDrag" 
-    Loaded="WindowLoad">
+    Background="#7F000000">
 
-
-    <Border
-        BorderThickness="0"
-        Background="#33000000">
-
-        <Canvas 
+    <Canvas 
             x:Name="canvas1" 
             Margin="0,0,0,0">
 
-            <Label 
+        <Label 
                 Content="Load ROM" 
-                Canvas.Left="25" 
-                Canvas.Top="23" 
+                Canvas.Left="130" 
+                Canvas.Top="40" 
                 Foreground="White" 
                 FontFamily="Century Gothic" 
                 FontSize="36"/>
 
-            <local:XAMLTester 
+        <local:XAMLTester 
                 Height="77" 
                 Width="157" 
                 Canvas.Left="149" 
                 Canvas.Top="138">
-            </local:XAMLTester>
-        </Canvas>
-    </Border>
+        </local:XAMLTester>
+    </Canvas>
 </Window>

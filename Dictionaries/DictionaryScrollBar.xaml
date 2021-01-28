@@ -14,7 +14,8 @@
 
                 <Grid
                         x:Name="Bg" 
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="True"
+                        Width = "15">
 
                     <Grid.RowDefinitions>
                         <RowDefinition 
@@ -27,11 +28,11 @@
                                 MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Whole Bar-->
+                    <!-- Middle Bar-->
                     <Border
-                                Background="#FF2D2D2D"
+                                Background="#4C000000"
                                 Grid.Row="1"
-                                CornerRadius="7"/>
+                                CornerRadius="8"/>
 
                     <!-- Up Arrow Button -->
                     <RepeatButton
@@ -99,9 +100,9 @@
 
                                             <Border 
                                                     x:Name="border"
-                                                    Background="#FF2D2D2D" 
+                                                    Background="#4C000000" 
                                                     SnapsToDevicePixels="True"
-                                                    CornerRadius="7">
+                                                    CornerRadius="8">
 
                                                 <ContentPresenter 
                                                         x:Name="contentPresenter" 
@@ -123,7 +124,7 @@
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF3C3C3C"/>
+                                                            Value="#4C000000"/>
                                                 </Trigger>
 
                                                 <Trigger 
@@ -133,7 +134,7 @@
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF4B4B4B"/>
+                                                            Value="#4C000000"/>
                                                 </Trigger>
 
                                                 <Trigger 
@@ -147,7 +148,7 @@
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF2D2D2D"/>
+                                                            Value="#4C000000"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -241,7 +242,7 @@
                                                                 x:Name="border" 
                                                                 Background="#FFB4B4B4" 
                                                                 SnapsToDevicePixels="True"
-                                                                CornerRadius="7"
+                                                                CornerRadius="8"
                                                                 Margin="2"/>
 
                                                     <ControlTemplate.Triggers>
@@ -384,9 +385,9 @@
 
                                             <Border 
                                                     x:Name="border" 
-                                                    Background="#FF2D2D2D" 
+                                                    Background="#4C000000"
                                                     SnapsToDevicePixels="True"
-                                                    CornerRadius="7">
+                                                    CornerRadius="8">
 
                                                 <ContentPresenter 
                                                         x:Name="contentPresenter" 
@@ -408,7 +409,7 @@
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF3C3C3C"/>
+                                                            Value="#4C000000"/>
 
                                                 </Trigger>
 
@@ -419,7 +420,7 @@
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF606060"/>
+                                                            Value="#4C000000"/>
 
                                                 </Trigger>
 
@@ -430,12 +431,12 @@
                                                     <Setter 
                                                             Property="Opacity" 
                                                             TargetName="contentPresenter" 
-                                                            Value="0.56"/>
+                                                            Value="0.5"/>
 
                                                     <Setter 
                                                             Property="Background" 
                                                             TargetName="border" 
-                                                            Value="#FF2D2D2D"/>
+                                                            Value="#4C000000"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>

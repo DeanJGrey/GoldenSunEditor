@@ -24,6 +24,9 @@ namespace GoldenSunEditor
         public WindowStart()
         {
             InitializeComponent();
+
+            this.Loaded += WindowLoad;
+            this.MouseDown += WindowDrag;
         }
 
         private void WindowDrag (object sender, MouseButtonEventArgs e)
@@ -33,35 +36,35 @@ namespace GoldenSunEditor
 
         private void WindowLoad (object sender, RoutedEventArgs e)
         {
-            //BlurryHelper.EnableBlur(this);
+            WindowInteropHelper windowHelper = new WindowInteropHelper (this);
 
-            /*
+            BlurryHelper.EnableBlur (windowHelper);
+
             Canvas canvas = UIHelper.GetVisualChild <Canvas> (this, "canvas1");
 
-            StackPanel stackPanel = new StackPanel();
+            StackPanel stackPanel = new StackPanel()
+            {
+                Margin = new Thickness (10, 10, 10, 10)
+            };
 
-            canvas.Children.Add(stackPanel);
+            canvas.Children.Add (stackPanel);
 
-            Button[] buttons = new Button [3];
+            Button [] buttons = new Button [3];
 
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons [i] = new Button ()
                 {
-                    Content = "BUTTON",
-                    //Margin = new Thickness (10, 100, 10, 10),
-                    //Width = 100,
-                    //Height = 25,
+                    Content = "BUTTON" + " " + (i + 1),
+                    Margin = new Thickness (0, 0, 0, 10),
+                    Width = 100,
+                    Height = 25,
                 };
 
                 buttons [i].Click += new RoutedEventHandler (LoadWindowMain);
 
                 stackPanel.Children.Add (buttons [i]);
-
-
-
             }
-            */
 
 
 
@@ -95,6 +98,11 @@ namespace GoldenSunEditor
             DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dwmBlurBehind);
             */
         }
+
+
+
+
+
 
         private void LoadWindowMain (object sender, RoutedEventArgs e)
         {

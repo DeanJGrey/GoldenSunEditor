@@ -37,7 +37,7 @@
                         <Rectangle 
                             x:Name="Corner" 
                             Grid.Column="1" 
-                            Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
+                            Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                             Grid.Row="1"/>
                         
                         <ScrollContentPresenter 
@@ -47,7 +47,8 @@
                             CanVerticallyScroll="False" 
                             ContentTemplate="{TemplateBinding ContentTemplate}" 
                             Content="{TemplateBinding Content}" 
-                            Grid.Column="0" Margin="{TemplateBinding Padding}" 
+                            Grid.Column="0" 
+                            Margin="{TemplateBinding Padding}" 
                             Grid.Row="0"/>
                         
                         <ScrollBar 

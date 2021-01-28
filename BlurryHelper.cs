@@ -53,6 +53,11 @@ namespace GoldenSunEditor
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
+
+
+
+
+
         /*
         public static uint _blurOpacity;
         
@@ -71,26 +76,30 @@ namespace GoldenSunEditor
 
         private static uint _blurBackgroundColor = 0x990000;
         */
-        /// <summary>
-        /// this method uses the SetWindowCompositionAttribute to apply an AeroGlass effect to the window
-        /// </summary>
+        
+        
+
+
+
+
+
         internal static void EnableBlur (WindowInteropHelper windowHelper)
         {
-            var accent = new AccentPolicy();
+            var accent = new AccentPolicy ();
 
             accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
 
             accent.AccentFlags = 2;
 
-            accent.GradientColor = 0x01FFFFFF;// (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
+            accent.GradientColor = 0x02000000; // (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
 
             var accentStructSize = Marshal.SizeOf (accent);
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
 
-            Marshal.StructureToPtr(accent, accentPtr, false);
+            Marshal.StructureToPtr (accent, accentPtr, false);
 
-            var data = new WindowCompositionAttributeData();
+            var data = new WindowCompositionAttributeData ();
 
             data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
 

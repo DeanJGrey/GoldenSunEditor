@@ -29,53 +29,59 @@ namespace GoldenSunEditor
         [DllImport("gdi32.dll")]
         static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
 
-        /*
         public WindowMain ()
         {
             InitializeComponent ();
+
+            this.Loaded += WindowLoaded;
+            this.MouseDown += WindowDrag;
         }
 
         private void WindowLoaded (object sender, RoutedEventArgs e)
         {
-            Panel panel = UIHelper.GetVisualChild <Panel>(this, "canvas1");
+            WindowInteropHelper windowHelper = new WindowInteropHelper (this);
 
-            ListView listView = new ListView ()
+            BlurryHelper.EnableBlur (windowHelper);
+
+            Panel panel = UIHelper.GetVisualChild <Panel> (this, "canvas1");
+
+            ListView listView = new ListView()
             {
                 Width = 200,
-                Margin = new Thickness(10)
+                Height = 580,
+                Margin = new Thickness (10)
             };
 
-            Button button = new Button()
+            for (int i = 0; i < 30; i++)
+            {
+                listView.Items.Add(new ListViewItem().Content = "Item" + " " + (i + 1));
+            }
+
+
+
+            Button button = new Button ()
             {
                 Height = 40,
                 Width = 100,
-                Margin = new Thickness (220,10,10,10)
+                Margin = new Thickness (220, 10, 10, 10)
             };
 
-            listView.Items.Add (new ListViewItem ().Content = "Item1");
+
+
             
             panel.Children.Add (listView);
 
             panel.Children.Add (button);
 
+            //IntPtr hwnd = windowHelper.Handle; //IntPtr hwnd = new WindowInteropHelper(this).Handle;
 
-
-
-            WindowInteropHelper windowHelper = new WindowInteropHelper(this);
-
-            BlurryHelper.EnableBlur(windowHelper);
-
-            IntPtr hwnd = windowHelper.Handle; //IntPtr hwnd = new WindowInteropHelper(this).Handle;
-
-            SetWindowRgn(hwnd, CreateRoundRectRgn(0, 0, 300, 300, 75, 75), true);
+            //SetWindowRgn (hwnd, CreateRoundRectRgn (0, 0, 300, 300, 75, 75), true);
         }
 
         private void WindowDrag (object sender, MouseButtonEventArgs e)
         {
             this.DragMove ();
         }
-
-        */
 
 
 
@@ -173,7 +179,7 @@ namespace GoldenSunEditor
 
 
 
-
+        /*
         [DllImport("dwmapi.dll")]
         static extern void DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
 
@@ -198,13 +204,13 @@ namespace GoldenSunEditor
 
             src.CompositionTarget.BackgroundColor = Colors.Transparent;
 
-            WindowChrome.SetWindowChrome(this, new WindowChrome
+            WindowChrome.SetWindowChrome (this, new WindowChrome
             {
                 CaptionHeight = 500,
-                CornerRadius = new CornerRadius(0),
-                GlassFrameThickness = new Thickness(0),
+                CornerRadius = new CornerRadius (0),
+                GlassFrameThickness = new Thickness (0),
                 NonClientFrameEdges = NonClientFrameEdges.None,
-                ResizeBorderThickness = new Thickness(0),
+                ResizeBorderThickness = new Thickness (0),
                 UseAeroCaptionButtons = false
             });
 
@@ -213,9 +219,11 @@ namespace GoldenSunEditor
             path.AddArc (new RectangleF (0, 0, 500, 500), 0, 360);
             path.CloseFigure ();
 
-            var dbb = new DWM_BLURBEHIND(true);//new DwmBlurBehind(true);
-            dbb.SetRegion(Graphics.FromHwnd(hwnd), new Region(path));
-            DwmEnableBlurBehindWindow(hwnd, ref dbb);//DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dbb);
+            var dbb = new DWM_BLURBEHIND (true); //new DwmBlurBehind(true);
+
+            dbb.SetRegion (Graphics.FromHwnd (hwnd), new Region (path));
+
+            DwmEnableBlurBehindWindow (hwnd, ref dbb);//DwmApi.DwmEnableBlurBehindWindow(hwnd, ref dbb);
         }
 
         [Flags]
@@ -263,5 +271,6 @@ namespace GoldenSunEditor
                 dwFlags |= DWM_BB.BlurRegion;
             }
         }
+        */
     }
 }
