@@ -38,29 +38,10 @@
                                 Height="*" />
                         </Grid.RowDefinitions>
 
-                        <!--
-                        <TabPanel
-                            x:Name="HeaderPanel"
-                            Background="Transparent"
-                            Grid.Column="0"
-                            IsItemsHost="True"
-                            Margin="0"
-                            Grid.Row="0"
-                            KeyboardNavigation.TabIndex="1"
-                            Panel.ZIndex="1"/>
-                        -->
-
-                        <!--
-                        <ToolBar
-                            x:Name="HeaderPanel"
-                            ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}" />
-                        -->
-
                         <ScrollViewer
-
                             HorizontalScrollBarVisibility="Auto"
                             VerticalScrollBarVisibility="Disabled">
-                            
+
                             <StackPanel
                                 Grid.Row="0"
                                 Grid.Column="0"
@@ -70,7 +51,7 @@
                                 IsItemsHost="True"
                                 Margin="0"
                                 KeyboardNavigation.TabIndex="1"
-                                Panel.ZIndex="1"/>
+                                Panel.ZIndex="1" />
                         </ScrollViewer>
                         
                         <Border
@@ -82,7 +63,7 @@
                             Grid.Row="1"
                             KeyboardNavigation.TabIndex="2"
                             KeyboardNavigation.TabNavigation="Local"
-                            CornerRadius="0,8,8,8">
+                            CornerRadius="8,8,8,8">
 
                             <ContentPresenter
                                 x:Name="PART_SelectedContentHost"
@@ -266,7 +247,7 @@
                             BorderThickness="0"
                             Background="#4C000000"
                             Margin="0"
-                            CornerRadius="8,8,0,0">
+                            CornerRadius="8">
                         </Border>
 
                         <ContentPresenter
