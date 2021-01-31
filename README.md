@@ -1,4 +1,4 @@
-# GoldenSunEditorWPF
+# GoldenSunEditor
 
 ## About
 This project is an attempt to create a Golden Sun ROM editor WPF application, sampling source code from editors made by Atrius and TeaWater.
