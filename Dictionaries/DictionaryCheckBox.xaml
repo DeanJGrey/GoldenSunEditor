@@ -23,10 +23,10 @@
                         <Ellipse
                             x:Name="check"
                             Fill="#66FFFFFF"
-                            Margin="1"
+                            Margin="3"
                             Opacity="1"
-                            Width="18"
-                            Height="18"
+                            Width="14"
+                            Height="14"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center" />
                     </Border>

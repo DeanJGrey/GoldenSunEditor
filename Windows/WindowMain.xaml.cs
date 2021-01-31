@@ -48,7 +48,7 @@ namespace GoldenSunEditor
 
             this.AddChild (canvas);
 
-                // 
+                // DADDY STACKPANEL
                 StackPanel stackPanel = new StackPanel ()
                 {
                     Orientation = Orientation.Horizontal,
@@ -136,6 +136,8 @@ namespace GoldenSunEditor
                         HorizontalContentAlignment = HorizontalAlignment.Center,
                         VerticalContentAlignment = VerticalAlignment.Center
                     };
+
+                tabItem.Content = new CheckBox ();
 
                 tabControl.Items.Add (tabItem);
             }
