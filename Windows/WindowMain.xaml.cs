@@ -28,135 +28,113 @@ namespace GoldenSunEditor
             InitializeComponent ();
 
             this.Loaded += WindowLoaded;
-            this.MouseDown += WindowDrag;
+            this.MouseDown += WindowMouseDown;
         }
 
-        private void WindowLoaded (object sender, RoutedEventArgs e)
-        {
-            // BLUR
-            WindowInteropHelper windowHelper = new WindowInteropHelper (this);
-
-            BlurryHelper.EnableBlur (windowHelper);
-
-            // CONTENT
-            Canvas canvas = new Canvas ()
-            {
-                Width = this.Width,
-                Height = this.Height,
-                Margin = new Thickness (0)
-            };
-
-            this.AddChild (canvas);
-
-                // DADDY STACKPANEL
-                StackPanel stackPanel = new StackPanel ()
-                {
-                    Orientation = Orientation.Horizontal,
-                    Width = this.Width,
-                    Height = this.Height,
-                    Margin = new Thickness (0)
-                };
-
-                canvas.Children.Add (stackPanel);
-
-                    // LISTVIEW & BUTTONS
-                    StackPanel stackPanelListViewButtons = new StackPanel ()
-                    {
-                        Orientation = Orientation.Vertical,
-                        Width = 200,
-                        Height = this.Height,
-                        Margin = new Thickness (0),
-                        HorizontalAlignment = HorizontalAlignment.Left
-                    };
-
-                    stackPanel.Children.Add (stackPanelListViewButtons);
-
-                        // LISTVIEW
-                        ListView listView = new ListView ()
-                        {
-                            Width = stackPanelListViewButtons.Width - 20,
-                            Height = this.Height - 50,
-                            Margin = new Thickness (10),
-                            HorizontalAlignment = HorizontalAlignment.Left
-                        };
-
-                        for (int i = 0; i < 90; i++)
-                        {
-                            listView.Items.Add (new ListViewItem ().Content = "Item" + " " + (i + 1));
-                        }
-
-                        stackPanelListViewButtons.Children.Add (listView);
-
-                        // BUTTONS
-                        StackPanel stackPanelButton = new StackPanel ()
-                        {
-                            Orientation = Orientation.Horizontal,
-                            Height = 30,
-                            Margin = new Thickness (10, 0, 10, 0)
-                        };
-
-                        stackPanelListViewButtons.Children.Add (stackPanelButton);
-
-                            Button button1 = new Button ()
-                            {
-                                Width = 85,
-                                Margin = new Thickness (0, 0, 10, 10),
-                                HorizontalAlignment = HorizontalAlignment.Left,
-                                Content = "Button 1"
-                            };
-
-                            stackPanelButton.Children.Add (button1);
-
-                            Button button2 = new Button ()
-                            {
-                                Width = 85,
-                                Margin = new Thickness (0, 0, 0, 10),
-                                HorizontalAlignment = HorizontalAlignment.Left,
-                                Content = "Button 2"
-                            };
-
-                            stackPanelButton.Children.Add (button2);
-
-            // TABCONTROL
-            TabControl tabControl = new TabControl ()
-            {
-                Margin = new Thickness (0, 10, 10, 10),
-                Width = this.Width - 210,
-                Height = this.Height - 20
-            };
-
-            stackPanel.Children.Add (tabControl);
-
-                for (int i = 0; i < 20; i++)
-                {
-                    TabItem tabItem = new TabItem ()
-                    {
-                        Header = "tabItem" + " " + i,
-                        Height = 20,
-                        HorizontalContentAlignment = HorizontalAlignment.Center,
-                        VerticalContentAlignment = VerticalAlignment.Center
-                    };
-
-                tabItem.Content = new CheckBox ();
-
-                tabControl.Items.Add (tabItem);
-            }
-        }
-
-        private void WindowDrag (object sender, MouseButtonEventArgs e)
-        {
-            if (e.RightButton != MouseButtonState.Pressed)
-                this.DragMove ();
-        }
-
-        private void buttonRedClick(object sender, RoutedEventArgs e)
+        private void ButtonWindowCloseClick (object sender, RoutedEventArgs e)
         {
             this.Close ();
         }
 
-        private void buttonGreenClick (object sender, RoutedEventArgs e)
+        private void ButtonWindowMinimiseClick (object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void InterfaceCreate ()
+        {
+            // DADDY CANVAS
+            Canvas canvas = new Canvas ()
+            {
+                Width = this.Width,
+                Height = this.Height
+            };
+
+            this.AddChild (canvas);
+
+                // MOMMA STACKPANEL
+                DockPanel dockPanelMomma = new DockPanel ()
+                {
+                    Width = canvas.Width,
+                    Height = canvas.Height,
+                };
+
+                canvas.Children.Add (dockPanelMomma);
+
+                    // WINDOW BUTTONS STACKPANEL
+                    StackPanel stackPanelWindowButtons = new StackPanel ()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        FlowDirection = FlowDirection.RightToLeft
+                    };
+
+                    DockPanel.SetDock (stackPanelWindowButtons, Dock.Top);
+
+                    dockPanelMomma.Children.Add (stackPanelWindowButtons);
+
+                        // CLOSE BUTTON
+                        Button buttonCloseWindow = new Button ()
+                        {
+                            Width = 16,
+                            Height = 16,
+                            Style = (Style) FindResource ("buttonRed"),
+                            Margin = new Thickness (10,10,0,10),
+                        };
+
+                        buttonCloseWindow.Click += ButtonWindowCloseClick;
+
+                        stackPanelWindowButtons.Children.Add (buttonCloseWindow);
+
+                        // MINIMISE BUTTON
+                        Button buttonMinimiseWindow = new Button ()
+                        {
+                            Width = 16,
+                            Height = 16,
+                            Style = (Style) FindResource ("buttonGreen"),
+                            Margin = new Thickness (10,10,0,10),
+                        };
+
+                        buttonMinimiseWindow.Click += ButtonWindowMinimiseClick;
+
+                        stackPanelWindowButtons.Children.Add (buttonMinimiseWindow);
+
+                    // TABCONTROL
+                    TabControl tabControl = new TabControl ()
+                    {
+                        Margin = new Thickness (10, 10, 10, 10)
+                    };
+
+                    DockPanel.SetDock (tabControl, Dock.Bottom);
+
+                    dockPanelMomma.Children.Add (tabControl);
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        TabItem tabItem = new TabItem ()
+                        {
+                            Header = "tabItem" + " " + i,
+                            Height = 20,
+                            HorizontalContentAlignment = HorizontalAlignment.Center,
+                            VerticalContentAlignment = VerticalAlignment.Center
+                        };
+
+                        tabItem.Content = new CheckBox ();
+
+                        tabControl.Items.Add (tabItem);
+                    }
+        }
+
+        private void WindowLoaded (object sender, RoutedEventArgs e)
+        {
+            BlurryHelper.EnableBlur (new WindowInteropHelper (this));             // BLUR
+
+            InterfaceCreate ();
+        }
+
+        private void WindowMouseDown (object sender, MouseButtonEventArgs e)
+        {
+            if (e.RightButton != MouseButtonState.Pressed)
+                this.DragMove ();
         }
     }
 }

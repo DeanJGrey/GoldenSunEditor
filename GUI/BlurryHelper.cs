@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace GoldenSunEditor
@@ -35,14 +33,11 @@ namespace GoldenSunEditor
 
     internal enum WindowCompositionAttribute
     {
-        // ...
         WCA_ACCENT_POLICY = 19
-        // ...
     }
 
     internal static class BlurryHelper
     {
-
         [DllImport("user32.dll")]
         static extern Int32 SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
 
@@ -52,36 +47,6 @@ namespace GoldenSunEditor
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-
-
-
-
-
-        /*
-        public static uint _blurOpacity;
-        
-        public static double BlurOpacity
-        {
-            get 
-            { 
-                return _blurOpacity;
-            }
-            set 
-            { 
-                _blurOpacity = (uint) value; 
-                EnableBlur (window); 
-            }
-        }
-
-        private static uint _blurBackgroundColor = 0x990000;
-        */
-        
-        
-
-
-
-
-
         internal static void EnableBlur (WindowInteropHelper windowHelper)
         {
             var accent = new AccentPolicy ();
@@ -90,7 +55,7 @@ namespace GoldenSunEditor
 
             accent.AccentFlags = 2;
 
-            accent.GradientColor = 0x02000000; // (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF);
+            accent.GradientColor = 0x02000000;
 
             var accentStructSize = Marshal.SizeOf (accent);
 
