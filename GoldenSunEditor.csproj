@@ -82,6 +82,10 @@
     </ApplicationDefinition>
     <Compile Include="GUI\BlurryHelper.cs" />
     <Compile Include="GUI\UIHelper.cs" />
+    <Compile Include="Static\Bits.cs" />
+    <Compile Include="Static\Compression.cs" />
+    <Compile Include="Static\Globals.cs" />
+    <Compile Include="Static\ROMInOut.cs" />
     <Compile Include="Windows\WindowStart.xaml.cs">
       <DependentUpon>WindowStart.xaml</DependentUpon>
     </Compile>

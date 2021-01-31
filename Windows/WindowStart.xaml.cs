@@ -25,21 +25,21 @@ namespace GoldenSunEditor
         {
             InitializeComponent();
 
-            this.Loaded += WindowLoad;
-            this.MouseDown += WindowDrag;
+            this.Loaded += ThisLoaded;
+            this.MouseDown += ThisMouseDrag;
         }
 
-        private void WindowDrag (object sender, MouseButtonEventArgs e)
+        private void ThisMouseDrag (object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton != MouseButtonState.Pressed)
                 this.DragMove ();
         }
 
-        private void WindowLoad (object sender, RoutedEventArgs e)
+        private void ThisLoaded (object sender, RoutedEventArgs e)
         {
-            WindowInteropHelper windowHelper = new WindowInteropHelper (this);
+            BlurryHelper.EnableBlur (new WindowInteropHelper (this));                           // Window Blur Effect
 
-            BlurryHelper.EnableBlur (windowHelper);
+            ROMInOut.OpenFile ();
         }
 
         private void LoadWindowMain (object sender, RoutedEventArgs e)
@@ -50,5 +50,5 @@ namespace GoldenSunEditor
 
             this.Close();
         }
-    }
+	}
 }
