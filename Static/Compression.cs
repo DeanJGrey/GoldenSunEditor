@@ -17,10 +17,10 @@ namespace GoldenSunEditor
         static public byte[] DecompressTextOld (byte[] src)
         {
             DateTime c = DateTime.Now;
-            int asmpchar = Bits.getInt32(src, 0x38578) - 0x8000000;
-            int asmptext = Bits.getInt32(src, 0x385DC) - 0x8000000;
-            int chardata = Bits.getInt32(src, asmpchar) - 0x08000000;
-            int charpntrs = Bits.getInt32(src, asmpchar + 4) - 0x08000000;
+            int asmpchar = Bits.getInt32 (src, 0x38578) - 0x8000000;
+            int asmptext = Bits.getInt32 (src, 0x385DC) - 0x8000000;
+            int chardata = Bits.getInt32 (src, asmpchar) - 0x08000000;
+            int charpntrs = Bits.getInt32 (src, asmpchar + 4) - 0x08000000;
             byte[] des = new byte[0x800000]; int desEntry = 0, desPos = 0xC300;
             for (int srcI = 0; srcI < 12461; srcI++)
             {

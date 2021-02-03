@@ -63,9 +63,12 @@ namespace GoldenSunEditor
 
         private void ButtonOpenROMClick (object sender, RoutedEventArgs e)
         {
-            ROMInOut.OpenFile ();
+            bool openFile = ROMInOut.OpenFile ();
 
-            LoadWindowMain (sender, e);
+            if (openFile == true)
+                LoadWindowMain (sender, e);
+            else
+                return;
         }
 
         private void InterfaceCreate ()

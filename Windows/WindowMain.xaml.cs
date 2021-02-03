@@ -78,7 +78,7 @@ namespace GoldenSunEditor
                             Width = 16,
                             Height = 16,
                             Style = (Style) FindResource ("buttonRed"),
-                            Margin = new Thickness (10,10,0,10),
+                            Margin = new Thickness (10,10,0,0),
                         };
 
                         buttonCloseWindow.Click += ButtonWindowCloseClick;
@@ -91,7 +91,7 @@ namespace GoldenSunEditor
                             Width = 16,
                             Height = 16,
                             Style = (Style) FindResource ("buttonGreen"),
-                            Margin = new Thickness (10,10,0,10),
+                            Margin = new Thickness (10,10,0,0),
                         };
 
                         buttonMinimiseWindow.Click += ButtonWindowMinimiseClick;
@@ -108,20 +108,13 @@ namespace GoldenSunEditor
 
                     dockPanelMomma.Children.Add (tabControl);
 
-                    for (int i = 0; i < 20; i++)
-                    {
-                        TabItem tabItem = new TabItem ()
+                        // TABITEMS
+                        Tabs tabs = new Tabs ();
+
+                        for (int i = 0; i < tabs.tabsList.Count; i++)
                         {
-                            Header = "tabItem" + " " + i,
-                            Height = 20,
-                            HorizontalContentAlignment = HorizontalAlignment.Center,
-                            VerticalContentAlignment = VerticalAlignment.Center
-                        };
-
-                        tabItem.Content = new CheckBox ();
-
-                        tabControl.Items.Add (tabItem);
-                    }
+                            tabControl.Items.Add (tabs.tabsList [i]);
+                        }
         }
 
         private void WindowLoaded (object sender, RoutedEventArgs e)

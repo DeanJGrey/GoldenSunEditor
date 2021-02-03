@@ -86,6 +86,7 @@
     <Compile Include="Static\Compression.cs" />
     <Compile Include="Static\Globals.cs" />
     <Compile Include="Static\ROMInOut.cs" />
+    <Compile Include="Tabs\Tabs.cs" />
     <Compile Include="Windows\WindowStart.xaml.cs">
       <DependentUpon>WindowStart.xaml</DependentUpon>
     </Compile>

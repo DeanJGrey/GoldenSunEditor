@@ -18,7 +18,7 @@ namespace GoldenSunEditor
 		//
 		// OPEN
 		//
-		public static void OpenFile ()
+		public static bool OpenFile ()
 		{
 			string fileName;
 			int version = -1;
@@ -47,7 +47,7 @@ namespace GoldenSunEditor
 				Console.WriteLine (fileName);
 			}
 			else
-				return;
+				return false;
 
 
 
@@ -66,16 +66,16 @@ namespace GoldenSunEditor
 				}
 				catch
 				{
-					return;
+					return false;
 				}
 
 				if (Globals.rOM == null)                                        // If rom was not writen to
-					return;                                                     // Stop
+					return false;                                                     // Stop
 				else
 					Console.WriteLine ("ROM was able to be read and writen.");
 			}
 			else
-				return;
+				return false;
 
 
 
@@ -148,6 +148,8 @@ namespace GoldenSunEditor
 			Console.WriteLine ("Language check complete.");
 
 			Console.WriteLine ("ROM load complete.");
+
+			return true;
 		}
 
 		public static byte [] OpenFilePart (string fileName, int address, int size)
