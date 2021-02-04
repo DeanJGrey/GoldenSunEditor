@@ -25,47 +25,84 @@ namespace GoldenSunEditor
     {
         public List <TabItem> tabsList = new List <TabItem> ();
 
-        public Tabs ()                                              // CLASS CONSTRUCTOR, Runs whenever this class is instanciated
+        public Tabs (TabControl tabControl)                             // CLASS CONSTRUCTOR, Runs whenever this class is instanciated
         {
-            tabsList.Add (TabClasses ());
-            tabsList.Add (TabItems ());
+            tabsList.Add (TabText (tabControl));
         }
 
-        public TabItem TabClasses ()
+        public TabItem TabText (TabControl tabControl)
         {
-            TabItem tabItem = new TabItem ();
+            // ACTUAL TABITEM TAB
+            TabItem tabItem = new TabItem ()
+            {
+                Header = "Classes"
+            };
 
-            tabItem.Header = "Classes";
+            // CONTENT
+            DockPanel dockPanelMomma = new DockPanel ()
+            {
+                Margin = new Thickness (10)
+            };
 
-            Canvas canvas = new Canvas ();
+            tabItem.Content = dockPanelMomma;
 
-            tabItem.Content = canvas;
+                // DOCKPENL FOR EDITOR TEXTBOX AND CONFIRM BUTTON
+                DockPanel dockPanelEditorAndButton = new DockPanel ();
 
-            CheckBox checkBox = new CheckBox ();
+                DockPanel.SetDock (dockPanelEditorAndButton, Dock.Top);
 
-            canvas.Children.Add (checkBox);
+                dockPanelMomma.Children.Add (dockPanelEditorAndButton);
 
-            return tabItem;
-        }
+                    // TEXTBOX
+                    TextBox textBox = new TextBox ()
+                    {
+                        Width = 500,
+                        Height = 100,
+                        Margin = new Thickness (0,0,10,0),
+                        TextWrapping = TextWrapping.Wrap
+                    };
 
-        public TabItem TabItems ()
-        {
-            TabItem tabItem = new TabItem ();
+                    DockPanel.SetDock (textBox, Dock.Left);
 
-            tabItem.Header = "Items";
+                    dockPanelEditorAndButton.Children.Add (textBox);
 
-            Canvas canvas = new Canvas ();
+                    // BUTTON
+                    Button button = new Button ()
+                    {
+                        Content = "BUTTON",
+                        Margin = new Thickness (100,40,100,40)
+                    };
 
-            tabItem.Content = canvas;
+                    DockPanel.SetDock (button, Dock.Right);
 
-            CheckBox checkBox = new CheckBox ();
+                    dockPanelEditorAndButton.Children.Add (button);
 
-            canvas.Children.Add (checkBox);
+                // LIST OF SCRIPTS TO EDIT
+                ListView listView = new ListView ()
+                {
+                    Width = dockPanelMomma.Width,
+                    Margin = new Thickness (0,10,0,0)
+                };
+
+                DockPanel.SetDock (listView, Dock.Bottom);
+
+                dockPanelMomma.Children.Add (listView);
 
             return tabItem;
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

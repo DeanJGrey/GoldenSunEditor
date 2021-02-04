@@ -17,18 +17,24 @@ namespace GoldenSunEditor
         static public byte[] DecompressTextOld (byte[] src)
         {
             DateTime c = DateTime.Now;
+
             int asmpchar = Bits.getInt32 (src, 0x38578) - 0x8000000;
             int asmptext = Bits.getInt32 (src, 0x385DC) - 0x8000000;
             int chardata = Bits.getInt32 (src, asmpchar) - 0x08000000;
             int charpntrs = Bits.getInt32 (src, asmpchar + 4) - 0x08000000;
+
             byte[] des = new byte[0x800000]; int desEntry = 0, desPos = 0xC300;
+
             for (int srcI = 0; srcI < 12461; srcI++)
             {
                 Bits.setInt32(des, desEntry, desPos - 0xC300); desEntry += 4;
+
                 int srcInd = srcI;
 
                 int textTree = Bits.getInt32(src, asmptext + ((srcInd >> 8) << 3)) - 0x08000000;
+
                 int textLenAddr = Bits.getInt32(src, asmptext + ((srcInd >> 8) << 3) + 4) - 0x08000000;
+
                 srcInd &= 0xFF;
                 while (srcInd-- != 0)
                 {
@@ -36,49 +42,52 @@ namespace GoldenSunEditor
                     do
                     {
                         cLen = src[textLenAddr++];
+
                         textTree += cLen;
-                    } while (cLen == 0xFF);
+                    } 
+                    while (cLen == 0xFF);
                 }
+
                 int initChar = 0;
 
                 textTree <<= 3;
+
                 do
                 {
-                    int charTree = (chardata + Bits.getInt16(src, charpntrs + (initChar << 1))) << 3;
+                    int charTree = (chardata + Bits.getInt16 (src, charpntrs + (initChar << 1))) << 3;
+
                     int charSlot = charTree - 12;
+
                     while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0)
                     {
                         if (((src[textTree >> 3] >> (textTree++ & 7)) & 1) == 1)
                         {
                             int depth = 0;
+
                             while (depth >= 0)
                             {
                                 while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0)
                                 {
                                     depth++;
                                 }
+
                                 charSlot -= 12;
+
                                 depth--;
                             }
                         }
                     }
+
                     initChar = (Bits.getInt16(src, charSlot >> 3) >> (charSlot & 7)) & 0xFFF;
+
                     des[desPos++] = (byte)initChar;
-                    //do {
-                    // n=getNextCharacter(argument0)
-                    // if n!=0 {
-                    //  if (n<32 || n>ord('~')) {
-                    //   if argument2
-                    //   { str+='['+string(n)+']'; }
-                    //   if argument3 && (n==1 || n==3) && (p<17 || p>20) && p!=26 && p!=29
-                    //   { n=0 }
-                    //  } else { str+=chr(n); }
-                    // }
-                    // p=n
-                    //} until n=0
-                } while (initChar != 0);
+
+                }
+                while (initChar != 0);
             }
+
             Console.WriteLine(DateTime.Now - c + " (Old Text Decompression)");
+
             return des;
         }
 
@@ -191,13 +200,12 @@ namespace GoldenSunEditor
 
 
         static public byte[] DecompressText (byte[] src)
-        { //, int srcInd) { // int srcPos) {
-            //return decompTextOld(src);
+        {
             DateTime c = DateTime.Now;
             int[] bitcode = new int[0x10000];
             byte[] bitLen = new byte[0x10000];
             short[] bitChar = new short[0x10000];
-            //Scan char data to generate data for faster decompression than old method.
+
             int asmpchar = Bits.getInt32(src, 0x38578) - 0x8000000;
             int asmptext = Bits.getInt32(src, 0x385DC) - 0x8000000;
             int chardata = Bits.getInt32(src, asmpchar) - 0x08000000;
@@ -228,9 +236,6 @@ namespace GoldenSunEditor
                 while (bits > 0);
             }
 
-            //Console.WriteLine(DateTime.Now - c);
-            //c = DateTime.Now;
-
             int textTree = 0, textLenAddr = 0;
             byte[] des = new byte[0x800000]; 
             int desEntry = 0, desPos = 0xC300;
@@ -251,7 +256,8 @@ namespace GoldenSunEditor
                     {
                         cLen = src[textLenAddr++];
                         textTree += cLen;
-                    } while (cLen == 0xFF);
+                    } 
+                    while (cLen == 0xFF);
                 }
                 int initChar = 0, bitnum = 0, val = 0, textTree2 = textTree;
                 do
@@ -261,8 +267,9 @@ namespace GoldenSunEditor
                     while ((val & ((1 << bitLen[entry]) - 1)) != bitcode[entry]) { entry++; }
                     initChar = bitChar[entry]; val >>= bitLen[entry]; bitnum -= bitLen[entry];
                     des[desPos++] = (byte)initChar;
-                    //if (desPos >= 0x10000) { break; }
-                } while (initChar != 0);
+
+                } 
+                while (initChar != 0);
             }
 
             Console.WriteLine(DateTime.Now - c + " (Text Decompression)");
@@ -294,22 +301,16 @@ namespace GoldenSunEditor
 
         static public int[] DecompressF (byte[] src, int srcPos, byte[] des, int desPos, int format) 
         {
-            int desStart = desPos; //Needed for when Distance is variable bits.
-            
-            //byte[] des = new byte[0x10000]; //Largest size ever needed.
-            //public byte[] decompress(byte[] src, int srcPos, int desPos) {
-            //byte[] des = new byte[0x10000]; //Largest size ever needed.
+            int desStart = desPos;
             
             int bits, 
                 readcount, 
                 i, 
-                _byte; //offset;
+                _byte;
             
             uint n; 
 
             ulong z = 0xFEDCBA9876543210;
-            
-            //int format = src[srcPos++];
             
             if (format == 0 || format == 2) 
             {
@@ -322,7 +323,7 @@ namespace GoldenSunEditor
                     bits = src [srcPos++]; 
 
                     bitnum = 8; 
-                } //Optional
+                }
 
                 bits += ((int)src[srcPos++] << bitnum) + ((int)src[srcPos++] << (8 + bitnum));
 
@@ -920,24 +921,7 @@ namespace GoldenSunEditor
             }
         }
 
-        //short[] freq = new short[0x10000]; //We need to know how often each character combination occurs to determine best bit amounts.
-        //short[] clen = new short[0x100]; //How many chars each char has associated with it.
-        //short[] clst = new short[0x10000]; //Char list in the order they appear in the text.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -961,22 +945,28 @@ namespace GoldenSunEditor
             ushort[] clen = new ushort[0x100]; //How many chars each char has associated with it.
             ushort[] clst = new ushort[0x10000]; //Char list in the order they appear in the text.
             int srcEntry = 0;
-            while ((Bits.getInt32(src, srcEntry) != 0) || (srcEntry == 0)) { //Set up frequency table and char list (in order displayed in text.)
+            
+            while ((Bits.getInt32(src, srcEntry) != 0) || (srcEntry == 0)) 
+            { //Set up frequency table and char list (in order displayed in text.)
                 int srcPos = 0xC300 + Bits.getInt32(src, srcEntry);
-                do {
+                
+                do 
+                {
                     char2 = src[srcPos++];
-                    if (freq[char1 * 0x100 + char2]++ == 0) {
+
+                    if (freq[char1 * 0x100 + char2]++ == 0) 
+                    {
                         clst[char1 * 0x100 + clen[char1]++] = char2; //clen[char1]++;// += 1;
                     }
-                    //freq[char1 * 0x100 + char2] += 1;
+
                     char1 = char2;
-                } while (char1 != 0); //Change to while < textArray?-- No, go through offset list instead.
+                } 
+                while (char1 != 0); //Change to while < textArray?-- No, go through offset list instead.
+
                 srcEntry += 4;
             }
 
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/clst.dmp", Array.ConvertAll<short, byte>(clst, delegate(short item) { return (byte)item; }));
-
-            byte[] bitLen = new byte[0x10000]; //int[] bitLen = new int[0x10000];
+            byte[] bitLen = new byte[0x10000];
 
             int[] bitCode = new int[0x10000];
 
@@ -1077,27 +1067,24 @@ namespace GoldenSunEditor
                 chrPtrs[(c1 << 1) + 1] = (byte)(addr2 >> 11);
                 int addr1 = addr2 - 12;
                 byte bitsL = 0;
-                //int val = 0;
-                //int bitnum = (clen[c1] & 1) * 4;
                 int bitC = 0;
-                for (int n = clen[c1]; n > 0; n--) {
+                
+                for (int n = clen[c1]; n > 0; n--) 
+                {
                     //List chars
                     chrTbl[(addr1 >> 3)] |= (byte)(clst[(c1 << 8) + nodeHead[nodeA]] << (addr1 & 7));
                     chrTbl[(addr1 >> 3) + 1] |= (byte)(clst[(c1 << 8) + nodeHead[nodeA]] >> (8 - (addr1 & 7)));
                     addr1 -= 12; 
-                    //val |= clst[(c1 << 8) + nodeHead[nodeA]] << bitnum; bitnum += 12;
-                    //while (bitnum >= 8) {
-                    //    chrTbl[addr1++] = (byte)val; bitnum -= 8;
-                    //}
+
                     //List the char's tree/flags
                     addr2 += symbBits[clst[(c1 << 8) + nodeHead[nodeA]]];
                     chrTbl[addr2 >> 3] |= (byte)(1 << (addr2++ & 7));
+                    
                     //Calculate bit lengths for bit code.
                     bitsL += (byte)symbBits[clst[(c1 << 8) + nodeHead[nodeA]]];
-                    //bitLen[clst[(c1 << 8) + nodeHead[nodeA]]] = bitsL;
+
                     bitLen[(c1 << 8) + clst[(c1 << 8) + nodeHead[nodeA]]] = bitsL;
-                    //if (symbBits[clst[(c1 << 8) + nodeHead[nodeA]]] == 0) { bitsL -= 1; }
-                    //if (c1 == 0) { Console.WriteLine(bitC.ToString("X8") + "   " + bitsL.ToString("X8") + "   " + (char)clst[(c1 << 8) + nodeHead[nodeA]]); }
+
                     //Generate bitCode table.
                     bitCode[(c1 << 8) + clst[(c1 << 8) + nodeHead[nodeA]]] = bitC;
                     while (((bitC >> (bitsL - 1)) & 1) == 1) { bitsL -= 1; bitC ^= 1 << bitsL; }
@@ -1107,17 +1094,6 @@ namespace GoldenSunEditor
                 }
 
                 addr2 = (addr2 + 8) & -8;
-
-                //Console.WriteLine("\nLetter by node order");
-                //for (int zz = 0; zz < clen[c1]; zz++) {
-                //    Console.Write(clst[(c1 << 8) + nodeHead[nodeA]].ToString("X4") + " ");
-                //    //Console.Write(symbBits[clst[(c1 << 8) + nodeHead[nodeA]]].ToString("X4") + " ");
-                //    nodeHead[nodeA] = symbSort[nodeHead[nodeA]];
-                //}
-                //Console.WriteLine("\nsymbSort");
-                //for (int zz = 0; zz < clen[c1]; zz++) {
-                //    Console.Write(symbSort[zz].ToString("X4") + " ");
-                //}
             }
 
             //Finally compress the text.
@@ -1173,12 +1149,6 @@ namespace GoldenSunEditor
                         
                         bitnum -= 8;
                     }
-
-                    //if (freq[char1 * 0x100 + char2]++ == 0) {
-                    //    clst[char1 * 0x100 + clen[char1]++] = char2; //clen[char1]++;// += 1;
-                    //}
-                    //freq[char1 * 0x100 + char2] += 1;
-                    //if (srcEntry == 0) { Console.WriteLine(bitCode[(char1 << 8) + char2].ToString("X8") + "   " + bitLen[(char1 << 8) + char2].ToString("X8")); }
 
                     char1 = char2;
                 } 
@@ -1277,249 +1247,7 @@ namespace GoldenSunEditor
                 Bits.setInt32 (dest, insAddr + a + 4, 0x08000000 + Bits.getInt32 (txtref1, a + 4) + loc2);
             }
 
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/txtromtest.gba", dest);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/txtref1.dmp", txtref1);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/txtref2.dmp", txtref2);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/cText.dmp", cText);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/chrPtrs.dmp", chrPtrs);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/chrTbl.dmp", chrTbl);
-            //System.IO.File.WriteAllBytes("C:/Users/Tea/Desktop/bitLen.dmp", bitLen);
-            //DateTime c = DateTime.Now;//.Ticks;
-
             Console.WriteLine ((DateTime.Now - c).ToString ());
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //
-        //TRASH?
-        //
-
-        ////Make list that points from least frequent char to most frequent char.
-        //int[] cltg = new int[0x10000]; //short[] cltg = new short[0x10000]; //Chars least to greatest - Swap to 0x200(?)(Esp. if contains node info) bytes and use same memory for all chars. (Since don't need them simutaneously.)
-        ////for (int charScan = 0; charScan < 0x100; charScan++) {
-        //    for (int j = 0; j < 0x0100; j++) {
-        //        if (clen[j] <= 1) { continue; }
-        //        int wgtMin = 1, wgt1 = 0xffff, wgt2 = 0xffff;//, wfInd = 0;
-        //        wgt1 = getWgt(j, ref wgtMin);
-        //        wgt2 = getWgt(j, ref wgtMin);
-        //        int ApdInd = 0, nodeInd = 0, nodeFreq = 0;
-        //        //Auto:  wgt1 <= wgt2 ; wgts ? nodeFreqs ; NodeFreq <= NodeFreq2
-        //        cltg[ApdInd++] = wgt1;
-        //        cltg[ApdInd++] = wgt2;
-        //        wgt1 = getWgt(j, ref wgtMin);
-        //        wgt2 = getWgt(j, ref wgtMin);
-        //        //nodeInd = 0;
-        //        nodeFreq = cltg[nodeInd++] + cltg[nodeInd++];
-        //        int nodeFreq2 = 0xffff; // cltg[nodeInd++] + cltg[nodeInd++];
-        //        for (int loops = 0; loops < clen[j] - 3; loops++) { //-1=default + -2=already put in 2 freqs.
-        //        if (wgt2 <= nodeFreq) {
-        //            cltg[ApdInd++] = wgt1;
-        //            cltg[ApdInd++] = wgt2;
-        //            wgt1 = getWgt(j, ref wgtMin);
-        //            wgt2 = getWgt(j, ref wgtMin);
-        //            if (nodeFreq2 == 0xFFFF) {
-        //                nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //            }
-        //        } else if (wgt1 <= nodeFreq) {
-        //            cltg[ApdInd++] = wgt1;
-        //            cltg[ApdInd++] = nodeFreq;
-        //            wgt1 = wgt2; wgt2 = getWgt(j, ref wgtMin);
-        //            if (nodeFreq2 == 0xFFFF) {
-        //                nodeFreq = cltg[nodeInd++] + cltg[nodeInd++];
-        //            } else {
-        //                nodeFreq = nodeFreq2;
-        //                nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //            }
-        //        } else if (nodeFreq2 < wgt1) {
-        //            cltg[ApdInd++] = nodeFreq;
-        //            cltg[ApdInd++] = nodeFreq2;
-        //            //if (nodeFreq2 != 0xFFFF) { nodeFreq = nodeFreq2; }
-        //            nodeFreq = cltg[nodeInd++] + cltg[nodeInd++];
-        //            if (nodeInd < ApdInd) {
-        //                nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //            } else {
-        //                nodeFreq2 = 0xFFFF;
-        //            }
-        //            //nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //        } else if (nodeFreq < wgt1) { //(nodeFreq < wgt1)
-        //            cltg[ApdInd++] = nodeFreq;
-        //            cltg[ApdInd++] = wgt1;
-        //            if (nodeFreq2 == 0xFFFF) {
-        //                nodeFreq = cltg[nodeInd++] + cltg[nodeInd++];
-        //            } else {
-        //                nodeFreq = nodeFreq2;
-        //                nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //            }
-        //            wgt1 = wgt2; wgt2 = getWgt(j, ref wgtMin);
-        //        }
-        //        //if (nodeFreq2 == 0xFFFF) {
-        //        //    nodeFreq2 = cltg[nodeInd++] + cltg[nodeInd++];
-        //        //}
-        //        } //end for clen
-        //        //if (nodeFreq2 != 0xFFFF) { nodeFreq = nodeFreq2; }
-        //    }
-            //int first = 0, last = 0, prev = 0, next = 0, i = 0;
-            //int len = 1;
-            //while (i != last) { //Note: When a number points to itself, it is the largest?
-            //    int curfreq = freq[charScan * 0x100 + clst[charScan * 0x100 + i]];
-            //    if (curfreq < freq[charScan * 0x100 + clst[charScan * 0x100 + prev]]) {
-
-            //    } else if (curfreq < freq[charScan * 0x100 + clst[charScan * 0x100 + next]]) {
-
-            //    }
-            //}
-        //}
-
-        //Node table with weight/freq values and pointer info....
-
-        //Make Char tables to be put in ROM.
-
-        //Compress text.
-
-        //}
-        //private int getWgt(int initChar, ref int wgtMin) {
-        //    int theWgt = 0xFFFF, wfInd = 0;
-        //    for (int i = 0; i < clen[initChar]; i++) {
-        //        int aWgt = freq[initChar * 0x100 + clst[initChar * 0x100 + i]];
-        //        if (wgtMin <= aWgt) {
-        //            if (aWgt < theWgt) {
-        //                theWgt = aWgt;
-        //                wfInd = initChar * 0x100 + clst[initChar * 0x100 + i];
-        //            }
-        //        }
-        //    }
-        //    wgtMin = theWgt;
-        //    freq[wfInd] = 0; //Temp?
-        //    return theWgt;
-        //}
-        //Temp - For testing/ Char-pair analysis.
-        //public string decompStr(byte[] src, int srcInd, int num) { // int srcPos) {
-        //    //byte[] des = new byte[0xA0000]; int desPos = 0;
-        //    StringBuilder des = new StringBuilder(0x200);
-        //    //short[] info = new short[0x10000];
-        //    //for (int srcInd1 = 0; srcInd1 <= 0x30AC; srcInd1++) {
-        //        //int srcInd = srcInd1;
-        //        int textTree = Bits.getInt32(src, 0xA9F54 + ((srcInd >> 8) << 3)) - 0x08000000;
-        //        int textLenAddr = Bits.getInt32(src, 0xA9F54 + ((srcInd >> 8) << 3) + 4) - 0x08000000;
-        //        srcInd &= 0xFF;
-        //        while (srcInd-- != 0) {
-        //            int cLen;
-        //            do {
-        //                cLen = src[textLenAddr++];
-        //                textTree += cLen;
-        //            } while (cLen == 0xFF);
-        //        }
-        //        int initChar = 0;
-        //        int chardata = Bits.getInt32(src, 0x60C30) - 0x08000000;
-        //        int charpntrs = Bits.getInt32(src, 0x60C34) - 0x08000000;
-        //        textTree <<= 3;
-        //        do {
-        //            int charTree = (chardata + Bits.getInt16(src, charpntrs + (initChar << 1))) << 3;
-        //            int charSlot = charTree - 12;
-        //            while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0) {
-        //                if (((src[textTree >> 3] >> (textTree++ & 7)) & 1) == 1) {
-        //                    int depth = 0;
-        //                    while (depth >= 0) {
-        //                        while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0) {
-        //                            depth++;
-        //                        }
-        //                        charSlot -= 12;
-        //                        depth--;
-        //                    }
-        //                }
-        //            }
-        //            //int loc = initChar * 0x100;
-        //            initChar = (Bits.getInt16(src, charSlot >> 3) >> (charSlot & 7)) & 0xFFF;
-        //            //info[loc + initChar] += 1;
-        //            //des[desPos++] = (byte)initChar;
-        //            if ((num == 1) && initChar < 30) {
-        //                //des.Append("[" + initChar.ToString() + "]");
-        //            } else {
-        //                des.Append((char)initChar);
-        //            }
-        //        } while (initChar != 0);
-        //    //}
-        //    //byte[] result = new byte[info.Length * sizeof(short)];
-        //    //Buffer.BlockCopy(info, 0, result, 0, result.Length);
-        //    return des.ToString();
-        //}
-
-
-        //Function for viewing hex-code of chars.
-        //void idc(byte[] src) {
-        //    int initChar = 0;
-        //    int chardata = Bits.getInt32(src, 0x60C30) - 0x08000000;
-        //    int charpntrs = Bits.getInt32(src, 0x60C34) - 0x08000000;
-        //    //textTree <<= 3;
-        //    do {
-        //        int charTree = (chardata + Bits.getInt16(src, charpntrs + (initChar << 1))) << 3;
-        //        int charSlot = charTree - 12;
-        //        int hexCode = 0;
-        //        int flip = 1;
-        //        while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0) {
-        //            flip <<= 1; //hexCode ^= flip;
-        //            //if (((src[textTree >> 3] >> (textTree++ & 7)) & 1) == 1) {
-        //                int depth = 0;
-        //                while (depth >= 0) {
-        //                    while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0) {
-        //                        depth++;
-        //                    }
-        //                    charSlot -= 12;
-        //                    depth--;
-        //                }
-        //            //}
-        //        }
-        //        //Write char's line.
-        //        initChar += 1; // (Bits.getInt16(src, charSlot >> 3) >> (charSlot & 7)) & 0xFFF;
-        //        //des[desPos++] = (byte)initChar;
-        //        //do {
-        //        // n=getNextCharacter(argument0)
-        //        // if n!=0 {
-        //        //  if (n<32 || n>ord('~')) {
-        //        //   if argument2
-        //        //   { str+='['+string(n)+']'; }
-        //        //   if argument3 && (n==1 || n==3) && (p<17 || p>20) && p!=26 && p!=29
-        //        //   { n=0 }
-        //        //  } else { str+=chr(n); }
-        //        // }
-        //        // p=n
-        //        //} until n=0
-        //    } while (initChar < 0x100);
-        //}
     }
 }

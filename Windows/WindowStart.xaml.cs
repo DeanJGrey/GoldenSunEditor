@@ -67,8 +67,6 @@ namespace GoldenSunEditor
 
             if (openFile == true)
                 LoadWindowMain (sender, e);
-            else
-                return;
         }
 
         private void InterfaceCreate ()

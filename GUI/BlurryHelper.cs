@@ -59,7 +59,7 @@ namespace GoldenSunEditor
 
             var accentStructSize = Marshal.SizeOf (accent);
 
-            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            var accentPtr = Marshal.AllocHGlobal (accentStructSize);
 
             Marshal.StructureToPtr (accent, accentPtr, false);
 

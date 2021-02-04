@@ -47,7 +47,7 @@ namespace GoldenSunEditor
             Canvas canvas = new Canvas ()
             {
                 Width = this.Width,
-                Height = this.Height
+                Height = this.Height,
             };
 
             this.AddChild (canvas);
@@ -91,7 +91,7 @@ namespace GoldenSunEditor
                             Width = 16,
                             Height = 16,
                             Style = (Style) FindResource ("buttonGreen"),
-                            Margin = new Thickness (10,10,0,0),
+                            Margin = new Thickness (10,10,0,0)
                         };
 
                         buttonMinimiseWindow.Click += ButtonWindowMinimiseClick;
@@ -101,7 +101,9 @@ namespace GoldenSunEditor
                     // TABCONTROL
                     TabControl tabControl = new TabControl ()
                     {
-                        Margin = new Thickness (10, 10, 10, 10)
+                        Margin = new Thickness (10, 10, 10, 10),
+                        HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                        VerticalContentAlignment = VerticalAlignment.Stretch
                     };
 
                     DockPanel.SetDock (tabControl, Dock.Bottom);
@@ -109,7 +111,7 @@ namespace GoldenSunEditor
                     dockPanelMomma.Children.Add (tabControl);
 
                         // TABITEMS
-                        Tabs tabs = new Tabs ();
+                        Tabs tabs = new Tabs (tabControl);
 
                         for (int i = 0; i < tabs.tabsList.Count; i++)
                         {
