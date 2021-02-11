@@ -87,6 +87,15 @@
     <Compile Include="Static\Globals.cs" />
     <Compile Include="Static\ROMInOut.cs" />
     <Compile Include="Tabs\Tabs.cs" />
+    <Compile Include="Unsorted\ButtonList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Unsorted\DataNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Unsorted\DataTextbox.cs" />
+    <Compile Include="Unsorted\SearchList.cs" />
+    <Compile Include="Unsorted\Table Manager.cs" />
     <Compile Include="Windows\WindowStart.xaml.cs">
       <DependentUpon>WindowStart.xaml</DependentUpon>
     </Compile>

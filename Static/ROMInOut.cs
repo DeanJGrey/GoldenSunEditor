@@ -26,13 +26,6 @@ namespace GoldenSunEditor
 			char language;
 			string palettePath = "";
 
-
-
-
-
-
-
-
 			// OPEN FILE CHOOSER
 			OpenFileDialog ofd = new OpenFileDialog ();
 
@@ -44,18 +37,10 @@ namespace GoldenSunEditor
 			{
 				fileName = ofd.FileName;												// fileName includes path as well
 
-				Console.WriteLine (fileName);
+				 Console.WriteLine (fileName);
 			}
 			else
 				return false;
-
-
-
-
-
-
-
-
 
 			// CHECK ROM LOADED
 			if (fileName.EndsWith (".gba", true, null))
@@ -76,12 +61,6 @@ namespace GoldenSunEditor
 			}
 			else
 				return false;
-
-
-
-
-
-
 
 			// CHECK ROM LANGUAGE
 			switch (Bits.GetString (Globals.rOM, 0x000000A0, 15))

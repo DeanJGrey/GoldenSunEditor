@@ -32,6 +32,8 @@ namespace GoldenSunEditor
 
         public TabItem TabText (TabControl tabControl)
         {
+            byte [] rOMData = Compression.DecompressText (Globals.rOM);
+
             // ACTUAL TABITEM TAB
             TabItem tabItem = new TabItem ()
             {
@@ -46,8 +48,11 @@ namespace GoldenSunEditor
 
             tabItem.Content = dockPanelMomma;
 
-                // DOCKPENL FOR EDITOR TEXTBOX AND CONFIRM BUTTON
-                DockPanel dockPanelEditorAndButton = new DockPanel ();
+                // DOCKPANEL FOR EDITOR TEXTBOX AND CONFIRM BUTTON
+                DockPanel dockPanelEditorAndButton = new DockPanel ()
+                {
+                    Margin = new Thickness (0,0,0,10)
+                };
 
                 DockPanel.SetDock (dockPanelEditorAndButton, Dock.Top);
 
@@ -58,7 +63,7 @@ namespace GoldenSunEditor
                     {
                         Width = 500,
                         Height = 100,
-                        Margin = new Thickness (0,0,10,0),
+                        Margin = new Thickness (0,0,0,0),
                         TextWrapping = TextWrapping.Wrap
                     };
 
@@ -77,16 +82,10 @@ namespace GoldenSunEditor
 
                     dockPanelEditorAndButton.Children.Add (button);
 
-                // LIST OF SCRIPTS TO EDIT
-                ListView listView = new ListView ()
-                {
-                    Width = dockPanelMomma.Width,
-                    Margin = new Thickness (0,10,0,0)
-                };
-
-                DockPanel.SetDock (listView, Dock.Bottom);
-
-                dockPanelMomma.Children.Add (listView);
+                // LISTVIEW
+                SearchList searchList = new SearchList (dockPanelMomma,
+                                                        rOMData,
+                                                        Bits.NumList (12461));
 
             return tabItem;
         }
@@ -128,90 +127,6 @@ namespace GoldenSunEditor
         public TabClasses ()
         {
             Header = "Classes";
-
-            Canvas canvas = new Canvas ();
-
-            Content = canvas;
-
-            CheckBox checkBox = new CheckBox ();
-
-            canvas.Children.Add (checkBox);
-
-            Style = (Style) Application.Current.TryFindResource (typeof (TabItem)); // Little trick to have the default style I 
-                                                                                    // set for 'TabItem' apply to this custom 
-                                                                                    // TabItem I have made since it unfortunately
-                                                                                    // doesn't do it by itself.
-        }
-    }
-
-    public class TabItems : TabItem
-    {
-        public TabItems ()
-        {
-            Header = "Items";
-
-            Canvas canvas = new Canvas ();
-
-            Content = canvas;
-
-            CheckBox checkBox = new CheckBox ();
-
-            canvas.Children.Add (checkBox);
-
-            Style = (Style) Application.Current.TryFindResource (typeof (TabItem)); // Little trick to have the default style I 
-                                                                                    // set for 'TabItem' apply to this custom 
-                                                                                    // TabItem I have made since it unfortunately
-                                                                                    // doesn't do it by itself.
-        }
-    }
-
-    public class TabForge : TabItem
-    {
-        public TabForge ()
-        {
-            Header = "Forge";
-
-            Canvas canvas = new Canvas ();
-
-            Content = canvas;
-
-            CheckBox checkBox = new CheckBox ();
-
-            canvas.Children.Add (checkBox);
-
-            Style = (Style) Application.Current.TryFindResource (typeof (TabItem)); // Little trick to have the default style I 
-                                                                                    // set for 'TabItem' apply to this custom 
-                                                                                    // TabItem I have made since it unfortunately
-                                                                                    // doesn't do it by itself.
-        }
-    }
-
-    public class TabElemental : TabItem
-    {
-        public TabElemental ()
-        {
-            Header = "Elemental";
-
-            Canvas canvas = new Canvas ();
-
-            Content = canvas;
-
-            CheckBox checkBox = new CheckBox ();
-
-            canvas.Children.Add (checkBox);
-
-            Style = (Style) Application.Current.TryFindResource (typeof (TabItem)); // Little trick to have the default style I 
-                                                                                    // set for 'TabItem' apply to this custom 
-                                                                                    // TabItem I have made since it unfortunately
-                                                                                    // doesn't do it by itself.
-        }
-    }
-
-    public class TabShops : TabItem
-    {
-        public TabShops ()
-        {
-            Header = "Shops";
 
             Canvas canvas = new Canvas ();
 

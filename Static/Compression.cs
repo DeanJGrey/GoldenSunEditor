@@ -199,82 +199,159 @@ namespace GoldenSunEditor
 
 
 
-        static public byte[] DecompressText (byte[] src)
+        static public byte [] DecompressText (byte [] source)
         {
-            DateTime c = DateTime.Now;
-            int[] bitcode = new int[0x10000];
-            byte[] bitLen = new byte[0x10000];
-            short[] bitChar = new short[0x10000];
+            DateTime dateTime = DateTime.Now;
 
-            int asmpchar = Bits.getInt32(src, 0x38578) - 0x8000000;
-            int asmptext = Bits.getInt32(src, 0x385DC) - 0x8000000;
-            int chardata = Bits.getInt32(src, asmpchar) - 0x08000000;
-            int charpntrs = Bits.getInt32(src, asmpchar + 4) - 0x08000000;
-            for (int char1 = 0; char1 < 0x100; char1++)
+            int[] bitCodeArray = new int[0x00010000];
+            byte[] bitLength = new byte[0x00010000];
+            short[] bitChar = new short[0x00010000];
+
+            int asmpChar = Bits.getInt32 (source, 0x00038578) - 0x8000000;
+            int asmpText = Bits.getInt32 (source, 0x000385DC) - 0x8000000;
+            int charData = Bits.getInt32 (source, asmpChar) - 0x08000000;
+            int charPointers = Bits.getInt32 (source, asmpChar + 4) - 0x08000000;
+
+            int iii = 0;
+            for (int char1 = 0; char1 < 0x00000100; char1++)
             {
-                if (charpntrs == asmpchar) { break; }
-                if (Bits.getInt16(src, charpntrs) == 0x8000) { charpntrs += 2; continue; }
-                int charTree = (chardata + Bits.getInt16(src, charpntrs)) << 3; charpntrs += 2;
-                int charSlot = charTree - 12;
-                byte bits = 0; int bitC = 0; int entry = (char1 << 8);
+                if (charPointers == asmpChar)
+                    break;
+
+                if (Bits.getInt16 (source, charPointers) == 0x00008000)
+                {
+                    charPointers += 2;
+
+                    continue;
+                }
+
+                int charTree;
+                charTree = charData;
+                charTree += Bits.getInt16 (source, charPointers);
+                charTree <<= 3;
+
+                charPointers += 2;
+
+                int charSlot;
+                charSlot = charTree;
+                charSlot -= 12;
+
+                byte bits = 0;
+                int bitCode = 0;
+
+                int entry;
+                entry = char1;
+                entry <<= 8;
+
+                int jjj = 0;
                 do
                 {
-                    while (((src[charTree >> 3] >> (charTree++ & 7)) & 1) == 0) { bits++; }
+                    while (((source [charTree >> 3] >> (charTree++ & 7)) & 1) == 0)
+                        bits++;
+                    
+                    bitChar [entry] = (short) ((Bits.getInt16 (source, charSlot >> 3) >> (charSlot & 7)) & 0xFFF);
 
-                    bitChar [entry] = (short)((Bits.getInt16(src, charSlot >> 3) >> (charSlot & 7)) & 0xFFF); charSlot -= 12;
+                    charSlot -= 12;
 
-                    bitLen [entry] = bits; if (bits >= 24) { return DecompressTextOld (src); }
+                    bitLength [entry] = bits;
 
-                    bitcode [entry] = bitC;
+                    if (bits >= 24)
+                        return DecompressTextOld (source);
 
-                    while (((bitC >> (bits - 1)) & 1) == 1) { bits -= 1; bitC ^= 1 << bits; }
+                    bitCodeArray [entry] = bitCode;
 
-                    bitC |= 1 << (bits - 1);
+                    int kkk = 0;
+                    while (((bitCode >> (bits - 1)) & 1) == 1)
+                    {
+                        bits -= 1;
+
+                        bitCode ^= 1 << bits;
+
+                        Console.WriteLine ("iii: " + iii++ + ", jjj: " + jjj++ + ", kkk: " + kkk++);
+                    }
+
+                    bitCode |= 1 << (bits - 1);
 
                     entry += 1;
-                } 
+                }
                 while (bits > 0);
             }
 
-            int textTree = 0, textLenAddr = 0;
-            byte[] des = new byte[0x800000]; 
-            int desEntry = 0, desPos = 0xC300;
+            int textTree = 0;
 
-            for (int srcI = 0; srcI < 12461; srcI++)
+            int textLengthAddress = 0;
+
+            byte[] destination = new byte [0x00800000];
+
+            int destinationEntry = 0;
+
+            int destinationPosition = 0x0000C300;
+
+            for (int ii = 0; ii < 12461; ii++)
             {
-                Bits.setInt32(des, desEntry, desPos - 0xC300); desEntry += 4;
-                int srcInd = srcI;
-                if ((srcInd & 0xFF) == 0)
+                Bits.setInt32 (destination, destinationEntry, destinationPosition - 0x0000C300);
+
+                destinationEntry += 4;
+
+                int sourceIndex = ii;
+
+                if ((sourceIndex & 0xFF) == 0)
                 {
-                    textTree = Bits.getInt32(src, asmptext + ((srcInd >> 8) << 3)) - 0x08000000;
-                    textLenAddr = Bits.getInt32(src, asmptext + ((srcInd >> 8) << 3) + 4) - 0x08000000;
+                    textTree = Bits.getInt32 (source, asmpText + ((sourceIndex >> 8) << 3));
+                    textTree -= 0x08000000;
+
+                    textLengthAddress = Bits.getInt32 (source, asmpText + ((sourceIndex >> 8) << 3) + 4);
+                    textLengthAddress -= 0x08000000;
                 }
                 else
                 {
-                    int cLen;
+                    int cLength;
+
                     do
                     {
-                        cLen = src[textLenAddr++];
-                        textTree += cLen;
-                    } 
-                    while (cLen == 0xFF);
+                        cLength = source [textLengthAddress++];
+
+                        textTree += cLength;
+                    }
+                    while (cLength == 0xFF);
                 }
-                int initChar = 0, bitnum = 0, val = 0, textTree2 = textTree;
+
+                int initChar = 0;
+
+                int bitNumber = 0;
+
+                int val = 0;
+
+                int textTree2 = textTree;
+
                 do
                 {
-                    while (bitnum < 24) { val |= (int)src[textTree2++] << bitnum; bitnum += 8; }
-                    int entry = initChar << 8;
-                    while ((val & ((1 << bitLen[entry]) - 1)) != bitcode[entry]) { entry++; }
-                    initChar = bitChar[entry]; val >>= bitLen[entry]; bitnum -= bitLen[entry];
-                    des[desPos++] = (byte)initChar;
+                    while (bitNumber < 24)
+                    {
+                        val |= (int) (source [textTree2++] << bitNumber);
 
-                } 
+                        bitNumber += 8;
+                    }
+
+                    int entry = initChar << 8;
+
+                    while ((val & ((1 << bitLength [entry]) - 1)) != bitCodeArray [entry])
+                        entry++;
+
+                    initChar = bitChar [entry];
+
+                    val >>= bitLength [entry];
+
+                    bitNumber -= bitLength [entry];
+
+                    destination [destinationPosition ++] = (byte) initChar;
+                }
                 while (initChar != 0);
             }
 
-            Console.WriteLine(DateTime.Now - c + " (Text Decompression)");
+            Console.WriteLine (DateTime.Now - dateTime + " (Text Decompression)");
 
-            return des;
+            return destination;
         }
 
 

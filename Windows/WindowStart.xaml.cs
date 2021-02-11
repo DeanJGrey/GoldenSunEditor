@@ -40,6 +40,10 @@ namespace GoldenSunEditor
             BlurryHelper.EnableBlur (new WindowInteropHelper (this));                           // Window Blur Effect
 
             InterfaceCreate ();
+
+            String stringX = "[";
+
+            Console.WriteLine ((char) 100 + "" + (char) 13 + "" + (char) 100);
         }
 
         private void LoadWindowMain (object sender, RoutedEventArgs e)

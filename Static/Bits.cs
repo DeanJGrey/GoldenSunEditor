@@ -109,25 +109,25 @@ namespace GoldenSunEditor
 					n = 0;
 
 
-			StringBuilder str = new StringBuilder(0x200);
+			StringBuilder stringBuilder = new StringBuilder(0x200);
 
 			if (index < 0)
 				return "";
 
-			int srcPos = Bits.getInt32(txt, index << 2);
+			int sourcePosition = Bits.getInt32(txt, index << 2);
 
 			if (Bits.getInt32(txt, 0) == 0)
-				srcPos += 0xC300;
+				sourcePosition += 0x0000C300;
 
 			do
 			{
-				n = txt[srcPos++];
+				n = txt [sourcePosition ++];
 
 				if (n != 0)
 				{
-					if (n < 32 || n > 0x7E)
+					if (n < 32 || n > 0x0000007E)
 					{
-						str.Append('[' + (n.ToString()) + ']');
+						stringBuilder.Append('[' + (n.ToString()) + ']');
 
 						if ((n == 1 || n == 3) && (p < 17 || p > 20) && p != 26 && p != 29)
 						{
@@ -136,7 +136,7 @@ namespace GoldenSunEditor
 					}
 					else
 					{
-						str.Append((char)n);
+						stringBuilder.Append((char)n);
 					}
 				}
 
@@ -144,7 +144,7 @@ namespace GoldenSunEditor
 			}
 
 			while (n != 0);
-				return str.ToString();
+				return stringBuilder.ToString();
 		}
 
 		public static string GetTextLong (byte[] txt, int index)
@@ -257,59 +257,62 @@ namespace GoldenSunEditor
 		//
 		// LIST
 		//
-		public static List <int> GetTextMatches (byte[] txt, String str, List <int> items)
+		public static List <int> GetTextMatchIndexes (byte[] txt, String textToFindMatchesOf, List <int> itemsIndex)
 		{
-			byte[] bytes = new byte [0x200];
+			byte [] bytes = new byte [0x00000200];												// Array of bytes of particular size ???
 
-			int a = 0, 
-				b = 0;
-
-			while (a < str.Length)
-			{
-				if (str[a] == '[')
+			// for each character of string textToFindMatchesOf
+            for (int ii = 0, jj = 0; ii < textToFindMatchesOf.Length; ii += 0)
+            {
+				// ???
+				if (textToFindMatchesOf [ii] == '[')                                            // If the character is a [
 				{
-					int num = 0;
+					int num = 0;																// ???
 
-					while (str [++a] != ']')
-						num = (num * 10) + (byte) (str[a]) - 0x30;
+					// Until we hit ] 
+					while (textToFindMatchesOf [++ii] != ']')                                   // ???
+					{
+						num *= 10;                                                              // ???
+						num += (byte) textToFindMatchesOf [ii];									// ???
+						num -= 0x00000030;                                                      // ???
+					}
 
-					a++;
+					ii ++;                                                                      // ??? 
 
-					bytes[b++] = (byte)num;
+					bytes [jj ++] = (byte) num;
 				}
-				else if (((byte)str[a] == 13) && ((byte)str[a + 1] == 10))
-					a += 2;
+				else if ((byte) textToFindMatchesOf [ii] == 0x0000000D && //13
+						(byte) textToFindMatchesOf [ii + 1] == 0x0000000A) //10
+					ii += 2;
 				else
-					bytes[b++] = (byte)str[a++];
+					bytes [jj ++] = (byte) textToFindMatchesOf [ii ++];
 			}
 
 			int i = 0;
 
-			int srcEntry = items[i] * 4; 
+			int sourceEntry = itemsIndex [i] * 4;
 			
-			int sortInd = 0; 
-			
-			List<int> matchList = new List<int>();
+			List <int> matchList = new List <int> ();
 
 			while (true)
 			{
-				if ((srcEntry < 0) || (srcEntry >= 12460))
+				if ((sourceEntry < 0) || (sourceEntry >= 12460))
 				{
 					if (bytes [0] == 0)
 						matchList.Add (i);
 
 					i++;
 
-					if (i >= items.Count ())
+					if (i >= itemsIndex.Count ())
 						break;
 
-					srcEntry = items[i] * 4;
+					sourceEntry = itemsIndex [i] * 4;
 					
 					continue;
 				}
 
-				int srcPos = 0xC300 + Bits.getInt32 (	txt, 
-														srcEntry);
+				int srcPos = 0x0000C300 + Bits.getInt32 (	txt,
+															sourceEntry);
 
 				while (true)
 				{
@@ -336,10 +339,10 @@ namespace GoldenSunEditor
 
 				i++;
 
-				if (i >= items.Count ())
+				if (i >= itemsIndex.Count ())
 					break;
 
-				srcEntry = items[i] * 4;
+				sourceEntry = itemsIndex [i] * 4;
 			}
 
 			return matchList;
